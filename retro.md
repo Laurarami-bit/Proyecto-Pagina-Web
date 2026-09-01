@@ -5,10 +5,13 @@
 - GRACIAS A ESO TUVIMOS UN AVANCE MUY GRANDE YA QUE SE PUDO COMPLETAR CON EL DISEÑO DE CADA VISTA REQUERIDA.
 
 ¿QUE HICIMOS MAL ?
-   -A veces creamos las vistas en desorden y eso hizo que perdiéramos tiempo al momento de organizarlas y avanzar con el proyecto, también en algunas vistas colocamos de mala forma algunos botones.
+   
+   
+-A veces creamos las vistas en desorden y eso hizo que perdiéramos tiempo al momento de organizarlas y avanzar con el proyecto, también en algunas vistas colocamos de mala forma algunos botones.
 
 ¿QUE HACER MENOS?
-  -Enfocarnos más en que el proyecto sea práctico y fácil de usar, en lugar de centrarnos demasiado en las decoraciones.
+
+-Enfocarnos más en que el proyecto sea práctico y fácil de usar, en lugar de centrarnos demasiado en las decoraciones.
 
 
 ¿QUE DEBERIAMOS EMPEZAR A HACER?
