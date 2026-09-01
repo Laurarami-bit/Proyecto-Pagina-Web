@@ -23,3 +23,6 @@ Para el diseño de la página utilizamos Wireframe y Figma. Estas herramientas n
 - https://www.babyfresh.co/?srsltid=AfmBOopv1fSBcsT43hc8xgLno0CEg0ZLRyuDj6dfQvtYssExtaW5nA9n
 - https://magicbabycol.com/?srsltid=AfmBOoqy2BeG8DaI862bxrn7bvcfGdAIKzx7b44TLUlfMTOFvKFmhMgs
 
+  # LINK TABLERO
+  https://github.com/users/Laurarami-bit/projects/1
+
