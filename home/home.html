@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Angelitos con amor</title>
+
+<style>
+  body {
+    font-family: 'Caveat', cursive;
+    background-color: #f6dfb4;
+    margin: 0;
+    font-size: 20px;
+  }
+
+ .contenedor {
+    max-width: 900px;
+    width: 90%;
+    margin: auto;
+    padding: 10px;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  header strong {
+    color: #d17ba0;
+    font-size: 20px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  header nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  header a {
+    font-size: 13px;
+    color: #555;
+    text-decoration: none;
+  }
+
+  header button {
+    background-color: #e8a9bc;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 4px 12px;
+    font-family: 'Caveat', cursive;
+    font-size: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  table {
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: 10px;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+td {
+    text-align: center;
+    vertical-align: top;
+    width: 33.33%;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+    background-color: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  }
+
+  h1 {
+    text-align: center;
+    color: #4a3b2a;
+    font-size: 38px;
+    margin: 15px 0;
+  }
+
+  span {
+    padding: 4px 16px;
+    border-radius: 15px;
+    font-weight: bold;
+    border: 2px solid;
+    font-size: 18px;
+  }
+
+  p.nombre {
+    background-color: #f3c98f;
+    border: 2px solid #d9a85c;
+    border-radius: 12px;
+    padding: 4px;
+    margin: 5px 0 0 0;
+    font-size: 16px;
+  }
+
+  p.oferta {
+    background-color: red;
+    color: white;
+    border-radius: 12px;
+    padding: 4px;
+    margin-top: 5px;
+    font-size: 16px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+    <strong>Angelitos con amor</strong>
+    <nav>
+      <a href="#">Inicio</a>
+      <a href="#">Productos</a>
+      <a href="#">Nosotros</a>
+      <a href="#">Contacto</a>
+      <span style="font-size: 20px;">🛒</span>
+      <button>Salir</button>
+    </nav>
+</header>
+
+<div class="contenedor">
+
+  <h1>Categorías</h1>
+
+  <table style="table-layout: fixed; width: 100%; border-spacing: 10px; margin: auto;">
+  <tr>
+    <td style="text-align: center;">
+      <span style="background-color: pink; border-color: #e8a9bc;">Juguetes</span>
+    </td>
+    <td style="text-align: center;">
+      <span style="background-color:lightblue; border-color: #a9d4db;">Ropa</span>
+    </td>
+    <td style="text-align: center;">
+      <span style="background-color: khaki; border-color: #e9d27c;">Cuidado</span>
+    </td>
+  </tr>
+</table>
+
+  <table>
+
+    <tr>
+      <td>
+        <img src="imagenes/peluches.jpeg">
+        <p class="nombre">Peluches</p>
+      </td>
+      <td>
+        <img src="imagenes/camisas.jpeg">
+        <p class="nombre">Camisas</p>
+      </td>
+      <td>
+        <img src="imagenes/pañales.jpeg">
+        <p class="nombre">Pañales</p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="imagenes/sonajeros.jpeg">
+        <p class="nombre">Sonajeros</p>
+      </td>
+      <td>
+        <img src="imagenes/pantalones.jpeg">
+        <p class="nombre">Pantalones</p>
+      </td>
+      <td>
+        <img src="imagenes/cremas.jpeg">
+        <p class="nombre">Cremas</p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="imagenes/mecedoras.jpeg">
+        <p class="nombre">Mecedoras</p>
+      </td>
+      <td>
+        <img src="imagenes/vestidos.jpeg">
+        <p class="nombre">Vestidos</p>
+      </td>
+      <td>
+        <img src="imagenes/shampu.jpeg">
+        <p class="nombre">Shampú</p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="imagenes/musicales.jpeg">
+        <p class="nombre">Musicales</p>
+      </td>
+      <td>
+        <img src="imagenes/pijamas.jpeg">
+        <p class="nombre">Pijamas</p>
+      </td>
+      <td>
+        <img src="imagenes/pañitos.jpeg">
+        <p class="nombre">Pañitos</p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="imagenes/educativos.jpeg">
+        <p class="nombre">Educativos</p>
+      </td>
+      <td>
+        <img src="imagenes/conjuntos.jpeg">
+        <p class="nombre">Conjuntos</p>
+      </td>
+      <td>
+        <img src="imagenes/jabon.jpeg">
+        <p class="nombre">Jabón</p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="imagenes/ducha.jpeg">
+        <p class="nombre">Ducha</p>
+        <p class="oferta">Ofertas%</p>
+      </td>
+      <td>
+        <img src="imagenes/abrigos.jpeg">
+        <p class="nombre">Abrigos</p>
+        <p class="oferta">Ofertas%</p>
+      </td>
+      <td>
+        <img src="imagenes/cepillos.jpeg">
+        <p class="nombre">Cepillos</p>
+        <p class="oferta">Ofertas%</p>
+      </td>
+    </tr>
+
+  </table>
+
+</div>
+
+</body>
+</html>
