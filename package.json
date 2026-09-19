@@ -1,0 +1,25 @@
+{
+  "name": "proyecto-pagina-web",
+  "version": "1.0.0",
+  "description": "Somos una tienda pensada para los más pequeños, donde podrás encontrar todo lo que necesitas para tu bebé en un solo lugar. Tenemos ropa, juguetes, accesorios y productos para el cuidado de su piel, además de muchas cosas más para su bienestar y comodidad.\r Queremos ofrecerte variedad y calidad para que encuentres todo lo que necesitas para tu bebé. ¡Ven y visítanos en nuestro punto físico en el Centro Comercial San Gil Plaza!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Laurarami-bit/Proyecto-Pagina-Web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Laurarami-bit/Proyecto-Pagina-Web/issues"
+  },
+  "homepage": "https://github.com/Laurarami-bit/Proyecto-Pagina-Web#readme",
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1"
+  }
+}
