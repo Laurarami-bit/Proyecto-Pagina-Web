@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Productos · Angelitos con amor</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <h2>Angelitos con amor</h2>
+  <hr>
+
+  <h1>Productos</h1>
+
+  <% if (!products.length) { %>
+    <p>Todavía no hay productos.</p>
+  <% } else { %>
+    <table>
+      <tr>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th></th>
+      </tr>
+      <% products.forEach(function (p) { %>
+        <tr>
+          <td><img src="<%= p.image %>" alt="<%= p.name %>"></td>
+          <td><%= p.name %></td>
+          <td><%= p.category %></td>
+          <td>$ <%= Number(p.price).toLocaleString('es-AR') %></td>
+          <td><a href="/productos/<%= p.id %>">Ver detalle</a></td>
+        </tr>
+      <% }) %>
+    </table>
+  <% } %>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= product.name %> · Angelitos con amor</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <h2>Angelitos con amor</h2>
+  <hr>
+
+  <h1><%= product.name %></h1>
+
+  <% if (product.image) { %>
+    <p><img src="<%= product.image %>" alt="<%= product.name %>" style="max-width: 300px"></p>
+  <% } %>
+
+  <p><strong>Categoría:</strong> <%= product.category %></p>
+  <p><strong>Precio:</strong> $ <%= Number(product.price).toLocaleString('es-AR') %></p>
+  <% if (product.color) { %>
+    <p><strong>Color:</strong> <%= product.color %></p>
+  <% } %>
+
+  <p><strong>Descripción</strong></p>
+  <p><%= product.description %></p>
+
+  <p><a href="/productos">Volver al listado</a></p>
+</body>
+</html>
