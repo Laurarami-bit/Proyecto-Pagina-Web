@@ -1,4 +1,4 @@
-#Retrospectiva del Sprint 2
+***Retrospectiva del Sprint 2***
 ## 1. Comenzar a hacer
 -Para mejorar, podríamos empezar a probar bien los códigos en Visual Studio Code antes de subirlos, para evitar inconvenientes y prevenir posibles conflictos que a veces puede generar Git.
 -También podríamos empezar a reunirnos más, como en pequeñas clases virtuales, para ayudarnos y resolver las dudas entre todos.
