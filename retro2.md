@@ -1,7 +1,7 @@
 ***Retrospectiva del Sprint 2***
 ## 1. Comenzar a hacer
--Para mejorar, podríamos empezar a probar bien los códigos en Visual Studio Code antes de subirlos, para evitar inconvenientes y prevenir posibles conflictos que a veces puede generar Git.
--También podríamos empezar a reunirnos más, como en pequeñas clases virtuales, para ayudarnos y resolver las dudas entre todos.
+- Para mejorar, podríamos empezar a probar bien los códigos en Visual Studio Code antes de subirlos, para evitar inconvenientes y prevenir posibles conflictos que a veces puede generar Git.
+- También podríamos empezar a reunirnos más, como en pequeñas clases virtuales, para ayudarnos y resolver las dudas entre todos.
 
 ## 2. Hacer más
 - Deberíamos tener mas comunicación entre nosotros cuando tengamos duda.
@@ -21,3 +21,6 @@
 ## 5. Dejar de hacer
 - No hacer cambios ni subir códigos al repositorio sin consultarlo previamente con todo el grupo, ya que esto puede generar inconvenientes en el proyecto.
 - No dejar de comunicar los errores que se nos presenten durante el desarrollo de cada vista, para poder solucionarlos entre todos
+
+  ## Enlace para tablero actualizado
+  https://github.com/users/Laurarami-bit/projects/1/views/1
