@@ -20,4 +20,4 @@
   -Seguir repartiéndonos las tareas para que todos trabajemos por igual y aportemos al proyecto.
 
 ENLACE DE TABLERO DE TRABAJO:
-https://github.com/users/Laurarami-bit/projects/1
+https://github.com/users/Laurarami-bit/projects/1 
