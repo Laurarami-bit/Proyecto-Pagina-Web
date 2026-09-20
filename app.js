@@ -91,17 +91,37 @@ app.post('/admin/productos/:id/editar', upload.single('image'), (req, res) => {
   if (!name || !description || !category || !price) {
     return res.status(400).send('Faltan datos. Vuelve atrás y completa el formulario.');
   }
+
   product.name = name;
   product.description = description;
   product.category = category;
   product.price = Number(price);
   product.color = color;
-  if (req.file) product.image = '/uploads/' + req.file.filename;
+
+  if (req.file) {
+    product.image = '/uploads/' + req.file.filename;
+  }
 
   writeProducts(products);
   res.redirect('/admin/productos');
 });
 
+app.get('/login', (req, res) => {
+  res.render('users/login');
+});
+
+app.get('/registro', (req, res) => {
+  res.render('users/registro');
+});
+
+app.get('/detalleproducto', (req, res) => {
+  res.render('shop/detalleproducto');
+});
+
+app.get('/carrito', (req, res) => {
+  res.render('shop/carrito');
+});
+
 app.listen(3000, () => {
-  console.log('Servidor en http://localhost:3000');
+  console.log('Servidor corriendo en http://localhost:3000');
 });
