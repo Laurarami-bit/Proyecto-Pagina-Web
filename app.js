@@ -59,6 +59,10 @@ app.get('/carrito', (req, res) => {
   res.render('shop/carrito');
 });
 
+app.get('/home', (req, res) => {
+  res.render('shop/home');
+});
+
 app.get('/admin/productos', (req, res) => {
   res.render('admin/products', {
     title: 'Productos',
