@@ -5,11 +5,11 @@
 - GRACIAS A ESO TUVIMOS UN AVANCE MUY GRANDE YA QUE SE PUDO COMPLETAR CON EL DISEÑO DE CADA VISTA REQUERIDA.
 
 ¿QUE HICIMOS MAL ?
--A veces creamos las vistas en desorden y eso hizo que perdiéramos tiempo al momento de organizarlas y avanzar con el proyecto, también en algunas vistas colocamos    de mala forma algunos botones.
+  -A veces creamos las vistas en desorden y eso hizo que perdiéramos tiempo al momento de organizarlas y avanzar con el proyecto, también en algunas vistas colocamos    de mala forma algunos botones.
 
 ¿QUE HACER MENOS?
 
--NOS CENTRARNOS EN LAS DECORACIONES SI NO QUE SEA MAS PRACTICO Y QUE SEA FACIL DE USAR.
+  -NOS CENTRARNOS EN LAS DECORACIONES SI NO QUE SEA MAS PRACTICO Y QUE SEA FACIL DE USAR.
 
 ¿QUE DEBERIAMOS EMPEZAR A HACER?
   - Crear los Sprint de cada vista
