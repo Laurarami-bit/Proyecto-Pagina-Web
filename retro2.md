@@ -22,5 +22,3 @@
 - No hacer cambios ni subir códigos al repositorio sin consultarlo previamente con todo el grupo, ya que esto puede generar inconvenientes en el proyecto.
 - No dejar de comunicar los errores que se nos presenten durante el desarrollo de cada vista, para poder solucionarlos entre todos
 
-  ## Enlace para tablero actualizado
-  https://github.com/users/Laurarami-bit/projects/1/views/1
