@@ -1,130 +1,15 @@
 
 <%- include('../partials/head-publico', { title: 'home' }) %>
-<style>
-  body {
-    font-family: 'Caveat', cursive;
-    background-color: #f6dfb4;
-    margin: 0;
-    font-size: 20px;
-  }
-
- .contenedor {
-    max-width: 900px;
-    width: 90%;
-    margin: auto;
-    padding: 10px;
-  }
-
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    padding: 10px 20px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  header strong {
-    color: #d17ba0;
-    font-size: 20px;
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
-
-  header nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  header a {
-    font-size: 13px;
-    color: #555;
-    text-decoration: none;
-  }
-
-  header button {
-    background-color: #e8a9bc;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    padding: 4px 12px;
-    font-family: 'Caveat', cursive;
-    font-size: 14px;
-    cursor: pointer;
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
-
-  table {
-    margin: auto;
-    border-collapse: separate;
-    border-spacing: 10px;
-    width: 100%;
-    table-layout: fixed;
-  }
-
-td {
-    text-align: center;
-    vertical-align: top;
-    width: 33.33%;
-  }
-
-  img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 6px;
-    display: block;
-    background-color: white;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-  }
-
-  h1 {
-    text-align: center;
-    color: #4a3b2a;
-    font-size: 38px;
-    margin: 15px 0;
-  }
-
-  span {
-    padding: 4px 16px;
-    border-radius: 15px;
-    font-weight: bold;
-    border: 2px solid;
-    font-size: 18px;
-  }
-
-  p.nombre {
-    background-color: #f3c98f;
-    border: 2px solid #d9a85c;
-    border-radius: 12px;
-    padding: 4px;
-    margin: 5px 0 0 0;
-    font-size: 16px;
-  }
-
-  p.oferta {
-    background-color: red;
-    color: white;
-    border-radius: 12px;
-    padding: 4px;
-    margin-top: 5px;
-    font-size: 16px;
-  }
-</style>
+<link rel="stylesheet" href="/css/home.css">
 <header>
     <strong>Angelitos con amor</strong>
     <nav>
       <a href="#">Inicio</a>
-      <a href="#">Productos</a>
+      <a href="/detalleproducto">Productos</a>
       <a href="#">Nosotros</a>
       <a href="#">Contacto</a>
-      <span style="font-size: 20px;">🛒</span>
-      <button>Salir</button>
+      <a href="/carrito" style="text-decoration: none; font-size: 20px;">🛒</a>
+      <a href="/logout">Salir</a>
     </nav>
 </header>
 
