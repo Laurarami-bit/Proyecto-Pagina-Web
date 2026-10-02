@@ -9,3 +9,12 @@ exports.mostrarCarrito = (req, res) => {
 exports.mostrarDetalleProducto = (req, res) => {
     res.render('shop/detalleproducto');
 };
+
+exports.mostrarContacto = (req, res) => {
+
+    res.render('shop/contacto');
+
+};
+exports.mostrarNosotros = (req, res) => {
+    res.render('shop/nosotros');
+};

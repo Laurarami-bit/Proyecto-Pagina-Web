@@ -48,6 +48,8 @@ app.post('/usuarios/registro', usersController.procesarRegistro);
 app.get('/home', shopController.mostrarHome);
 app.get('/carrito', shopController.mostrarCarrito);
 app.get('/detalleproducto', shopController.mostrarDetalleProducto);
+app.get('/contacto', shopController.mostrarContacto);
+app.get('/nosotros', shopController.mostrarNosotros);
 
 app.get('/admin/productos', productsController.listarProductos);
 app.get('/admin/productos/nuevo', productsController.mostrarFormularioNuevo);

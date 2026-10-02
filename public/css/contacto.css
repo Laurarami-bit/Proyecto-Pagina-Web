@@ -1,0 +1,38 @@
+main h1{
+   
+    text-align: center;
+}
+
+main > p {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+main section{
+    margin: 0 auto;
+    max-width: 60px;
+}
+
+main section h2{
+    text-align: center;
+}
+
+main section p{
+    margin: 15px;
+}
+main {
+    background-color: rgb(255, 219, 228);
+    padding: 30px;
+}
+ main section{
+    margin: 0 auto;
+    max-width: 600px;
+    background-color: white;
+    padding: 25px;
+    border-radius: 15px;
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+ }
+ main h1 {
+    color: #d46a8c;
+    margin-bottom: 10px;
+}
