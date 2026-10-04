@@ -1,62 +1,72 @@
 const express = require('express');
-const multer = require('multer');
 const path = require('path');
-const session = require('express-session');
-
-const usersController = require('./controllers/user_controller');
-const shopController = require('./controllers/shop_controller');
-const productsController = require('./controllers/productos_controller');
-
 const app = express();
-const PUERTO = 3000;
 
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: path.join(__dirname, 'public', 'uploads'),
-    filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
-  }),
-});
+// Importamos el controlador de la tienda que ya tienes creado
+const shopController = require('./controllers/shop_controller');
 
+// Configuración del motor de vistas EJS y la ruta correcta de vistas (src/views)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
+// Carpeta de archivos estáticos (CSS, imágenes, JS)
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.urlencoded({ extended: true }));
+
+// IMPORTANTE: Middleware para poder leer los datos del formulario POST
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(session({
-    secret: 'angelitos-clave-local',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        httpOnly: true,
-        sameSite: 'lax',
-        secure: false,
-        maxAge: 60 * 60 * 1000
-    }
-}));
+// Ruta Principal (Home) usando el controlador
+app.get('/home', shopController.mostrarHome);
 
+// Redirección raíz al home
 app.get('/', (req, res) => {
-  res.redirect('/admin/productos');
+    res.redirect('/home');
 });
 
-app.get('/login', usersController.mostrarLogin);
-app.post('/usuarios/login', usersController.procesarLogin);
-app.get('/registro', usersController.mostrarRegistro);
-app.post('/usuarios/registro', usersController.procesarRegistro);
+// Ruta de categorías (usando tu función verCategoria del controlador)
+app.get('/shop/categoria/:nombre', shopController.verCategoria);
 
-app.get('/home', shopController.mostrarHome);
+// Demás rutas del menú conectadas al controlador
+app.get('/nosotros', shopController.mostrarNosotros);
+app.get('/contacto', shopController.mostrarContacto);
 app.get('/carrito', shopController.mostrarCarrito);
 app.get('/detalleproducto', shopController.mostrarDetalleProducto);
-app.get('/contacto', shopController.mostrarContacto);
-app.get('/nosotros', shopController.mostrarNosotros);
 
-app.get('/admin/productos', productsController.listarProductos);
-app.get('/admin/productos/nuevo', productsController.mostrarFormularioNuevo);
-app.post('/admin/productos', upload.single('image'), productsController.crearProducto);
-app.get('/admin/productos/:id/editar', productsController.mostrarFormularioEditar);
-app.post('/admin/productos/:id/editar', upload.single('image'), productsController.actualizarProducto);
+// ==========================================
+// RUTAS DE LOGIN Y REGISTRO (Vistas GET)
+// ==========================================
+app.get('/login', (req, res) => {
+    res.render('users/login'); 
+});
 
-app.listen(PUERTO, () => {
-  console.log(`Servidor corriendo en http://localhost:${PUERTO}`);
+app.get('/register', (req, res) => {
+    res.render('users/registro'); 
+});
+
+app.get('/registro', (req, res) => {
+    res.render('users/registro'); 
+});
+
+// ==========================================
+// PROCESAMIENTO DE FORMULARIOS (Rutas POST)
+// ==========================================
+
+// 1. Al dar "ACCESO" en el Login -> Te lleva directo al Home
+app.post('/usuarios/login', (req, res) => {
+    console.log("Datos de inicio de sesión:", req.body);
+    res.redirect('/home');
+});
+
+// 2. Al "CREAR CUENTA" en el Registro -> Te devuelve al Login para que ingreses
+app.post('/usuarios/registro', (req, res) => {
+    console.log("Datos de registro:", req.body);
+    // Aquí después guardaremos el usuario en la base de datos
+    res.redirect('/login');
+});
+
+// Iniciar servidor en el puerto 3160 libre de conflictos
+const PORT = process.env.PORT || 3200;
+app.listen(PORT, () => {
+    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });

@@ -1,159 +1,57 @@
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  padding: 10px 20px;
-  width: 100%;
-  box-sizing: border-box;
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap");
+ 
+:root { --rosa: #ee9aa5; --rosa2: #c46d7e; --vino: #8d4655; --w: 210px; }
+ 
+html body {
+  margin: 0;
+  padding: 0 28px 40px calc(var(--w) + 28px);
+  font-family: "Quicksand", system-ui, sans-serif;
+  color: #4a3a3e;
+  background: #fdf1f3;
 }
-header strong {
-  color: #d17ba0;
+body img { max-width: 100%; height: auto; }
+h1, h2, h3 { color: var(--vino); }
+ 
+/* Barra lateral rosada */
+body > :is(header, nav, .header, .navbar) {
+  position: fixed; inset: 0 auto 0 0; width: var(--w);
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 28px 16px; overflow-y: auto;
+  color: #fff; font-weight: 700;
+  background: linear-gradient(180deg, var(--rosa), var(--rosa2));
+  border-radius: 0 30px 30px 0;
+  box-shadow: 6px 0 24px rgba(0, 0, 0, .18);
+ 
+  & :is(nav, ul, div) { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  & :is(h1, h2, h3, strong, b) { margin: 0 0 12px; padding: 0 8px 16px; color: #fff; font-size: 1.15rem; border-bottom: 1px solid rgba(255, 255, 255, .35); }
+  & a { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 16px; color: #fff; text-decoration: none; }
+  & a:hover { background: rgba(255, 255, 255, .25); }
+  & a:is([href*="logout"], [href*="salir"]) { margin-top: auto; }
+ 
+  & a[href="/"]::before, & a[href*="home"]::before { content: "🏠"; }
+  & a[href*="producto"]::before { content: "🛍️"; }
+  & a[href*="nosotros"]::before { content: "💗"; }
+  & a[href*="contacto"]::before { content: "✉️"; }
+  & a:is([href*="logout"], [href*="salir"])::before { content: "🚪"; }
 }
-
-.nosotros {
-background-color: #fff5f8;
-padding: 40px 8%;
-min-height: 100vh;
-font-family: Arial, sans-serif;
+ 
+@media (max-width: 760px) {
+  html body { padding: 120px 16px 32px; }
+  body > :is(header, nav, .header, .navbar) {
+    inset: 0 0 auto 0; width: auto; flex-direction: row; flex-wrap: wrap;
+    border-radius: 0 0 24px 24px;
+    & :is(nav, ul, div) { flex-direction: row; flex-wrap: wrap; }
+  }
 }
-
-/* Presentación */
-
-.nosotros-presentacion {
-text-align: center;
-max-width: 850px;
-margin: 0 auto 40px;
+ 
+/* ===== Nosotros ===== */
+body > :is(main, .contenedor, .container, .contenido, section, article) {
+  max-width: 900px; margin: 28px auto; padding: 32px 40px 40px;
+  background: #fff; border-radius: 28px;
+  box-shadow: 0 12px 34px rgba(141, 70, 85, .12);
+ 
+  & h2 { margin: 28px 0 10px; padding: 10px 16px; background: #fff1f3; border-left: 5px solid var(--rosa); border-radius: 0 16px 16px 0; }
+  & h3 { margin: 20px 0 4px; color: var(--rosa2); }
+  & p { max-width: 70ch; }
 }
-
-.nosotros-presentacion h1 {
-color: #d85c83;
-font-size: 40px;
-margin-bottom: 10px;
-}
-
-.nosotros-presentacion h2 {
-color: #8f4a63;
-font-size: 28px;
-margin-bottom: 20px;
-}
-
-.nosotros-presentacion p {
-color: #555;
-font-size: 17px;
-line-height: 1.7;
-}
-
-/* Misión y visión */
-
-.nosotros-contenido {
-display: flex;
-gap: 25px;
-justify-content: center;
-margin-bottom: 45px;
-}
-
-.tarjeta-nosotros {
-background-color: white;
-width: 45%;
-padding: 30px;
-border-radius: 18px;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-border-top: 5px solid #f3a6bd;
-}
-
-.tarjeta-nosotros h2 {
-color: #d85c83;
-margin-bottom: 15px;
-}
-
-.tarjeta-nosotros p {
-color: #555;
-line-height: 1.7;
-}
-
-/* Lo que ofrecemos */
-
-.ofrecemos {
-text-align: center;
-margin-bottom: 45px;
-}
-
-.ofrecemos h2 {
-color: #d85c83;
-font-size: 30px;
-}
-
-.ofrecemos > p {
-color: #666;
-margin-bottom: 25px;
-}
-
-.productos-nosotros {
-display: flex;
-justify-content: center;
-gap: 25px;
-}
-
-.producto-info {
-background-color: white;
-width: 28%;
-padding: 25px;
-border-radius: 18px;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.producto-info h3 {
-color: #d85c83;
-font-size: 21px;
-}
-
-.producto-info p {
-color: #666;
-line-height: 1.6;
-}
-
-/* Compromiso */
-
-.compromiso {
-background-color: #f9dce7;
-max-width: 850px;
-margin: 0 auto;
-padding: 30px;
-border-radius: 20px;
-text-align: center;
-}
-
-.compromiso h2 {
-color: #8f4a63;
-margin-bottom: 15px;
-}
-
-.compromiso p {
-color: #555;
-line-height: 1.7;
-}
-
-/* Adaptación para celular */
-
-@media (max-width: 768px) {
-
-```
-.nosotros-contenido,
-.productos-nosotros {
-    flex-direction: column;
-    align-items: center;
-}
-
-.tarjeta-nosotros,
-.producto-info {
-    width: 90%;
-}
-
-.nosotros-presentacion h1 {
-    font-size: 32px;
-}
-
-
-
+ 
