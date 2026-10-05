@@ -1,318 +1,470 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Categoría: <%= categoria %> · Angelitos con amor</title>
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Categoría: <%= categoria %> · Angelitos con amor</title>
+
+```
+<style>
     body {
-      background-color: #f9f6f0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #444;
-      margin: 0;
-      padding: 0;
+        background-color: #f9f6f0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #444;
+        margin: 0;
+        padding: 0;
     }
 
     .tienda-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 30px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 20px;
     }
 
     .header-tienda {
-      text-align: center;
-      margin-bottom: 30px;
+        text-align: center;
+        margin-bottom: 30px;
     }
 
     .header-tienda h2 {
-      color: #d46a84;
-      font-size: 28px;
-      margin-bottom: 5px;
+        color: #d46a84;
+        font-size: 28px;
+        margin-bottom: 5px;
     }
 
     .header-tienda hr {
-      border: none;
-      height: 2px;
-      background: #fce4ec;
-      width: 150px;
-      margin: 10px auto;
+        border: none;
+        height: 2px;
+        background: #fce4ec;
+        width: 150px;
+        margin: 10px auto;
     }
 
     .navegacion-superior {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #ffffff;
-      padding: 15px 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-      gap: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        padding: 15px 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
     }
 
     .navegacion-superior h1 {
-      font-size: 22px;
-      color: #333;
-      margin: 0;
+        font-size: 22px;
+        color: #333;
+        margin: 0;
     }
 
     .enlaces-nav a {
-      color: #d46a84;
-      text-decoration: none;
-      font-weight: 600;
-      margin-left: 15px;
-      transition: color 0.2s;
+        color: #d46a84;
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 15px;
+        transition: color 0.2s;
     }
 
     .enlaces-nav a:hover {
-      color: #b54f68;
-      text-decoration: underline;
+        color: #b54f68;
+        text-decoration: underline;
     }
 
-    /* Filtros de género estéticos */
     .filtros-genero {
-      background: #ffffff;
-      padding: 15px 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-      margin-bottom: 30px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+        background: #ffffff;
+        padding: 15px 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
     }
 
     .filtros-genero strong {
-      color: #555;
+        color: #555;
     }
 
     .btn-filtro {
-      padding: 8px 16px;
-      background: #f0f0f0;
-      text-decoration: none;
-      border-radius: 20px;
-      color: #555;
-      font-weight: 600;
-      font-size: 14px;
-      transition: all 0.2s;
+        padding: 8px 16px;
+        background: #f0f0f0;
+        text-decoration: none;
+        border-radius: 20px;
+        color: #555;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
     }
 
     .btn-filtro:hover {
-      background: #e0e0e0;
-      transform: translateY(-1px);
+        background: #e0e0e0;
+        transform: translateY(-1px);
     }
 
     .btn-filtro.nina {
-      background-color: #ffe4e8;
-      color: #c23858;
+        background-color: #ffe4e8;
+        color: #c23858;
     }
 
     .btn-filtro.nino {
-      background-color: #e3f2fd;
-      color: #1976d2;
+        background-color: #e3f2fd;
+        color: #1976d2;
     }
 
-    /* Cuadrícula de productos */
     .grid-productos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 25px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 25px;
     }
 
     .card-producto {
-      background: #ffffff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 15px;
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 15px;
     }
 
     .card-producto:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .producto-enlace {
+        text-decoration: none;
+        color: inherit;
+        display: block;
     }
 
     .card-producto img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 8px;
-      background: #f9f9f9;
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+        background: #f9f9f9;
     }
 
     .card-producto h3 {
-      font-size: 16px;
-      color: #333;
-      margin: 12px 0 8px 0;
-      font-weight: 600;
-      text-align: left;
+        font-size: 16px;
+        color: #333;
+        margin: 12px 0 8px 0;
+        font-weight: 600;
+        text-align: left;
+    }
+
+    .producto-enlace:hover h3 {
+        color: #d46a84;
     }
 
     .precio-producto {
-      font-size: 16px;
-      color: #2e7d32;
-      font-weight: bold;
-      margin-bottom: 12px;
-      text-align: left;
+        font-size: 16px;
+        color: #2e7d32;
+        font-weight: bold;
+        margin-bottom: 12px;
+        text-align: left;
     }
 
     .card-producto label {
-      font-size: 13px;
-      color: #666;
-      display: block;
-      margin-bottom: 4px;
-      text-align: left;
+        font-size: 13px;
+        color: #666;
+        display: block;
+        margin-bottom: 4px;
+        text-align: left;
     }
 
     .card-producto select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      background: #fafafa;
-      margin-bottom: 12px;
-      font-size: 14px;
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background: #fafafa;
+        margin-bottom: 12px;
+        font-size: 14px;
     }
 
     .btn-carrito {
-      background: #ff708e;
-      color: white;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      cursor: pointer;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 14px;
-      transition: background 0.2s;
-      box-shadow: 0 4px 10px rgba(255, 112, 142, 0.3);
+        background: #ff708e;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        cursor: pointer;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 14px;
+        transition: background 0.2s;
+        box-shadow: 0 4px 10px rgba(255, 112, 142, 0.3);
     }
 
     .btn-carrito:hover {
-      background: #ff5277;
+        background: #ff5277;
     }
 
     .mensaje-vacio {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      text-align: center;
-      color: #666;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-      font-size: 16px;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        color: #666;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        font-size: 16px;
     }
-  </style>
+</style>
+```
+
 </head>
+
 <body>
 
-  <div class="tienda-container">
+```
+<div class="tienda-container">
+
     <div class="header-tienda">
-      <h2>Angelitos con amor</h2>
-      <hr>
+        <h2>Angelitos con amor</h2>
+        <hr>
     </div>
 
     <div class="navegacion-superior">
-      <h1>Categoría: <%= categoria.toUpperCase() %></h1>
-      <div class="enlaces-nav">
-        <a href="/home">← Volver al Home</a>
-        <a href="/carrito">Ver Carrito 🛒</a>
-      </div>
+
+        <h1>
+            Categoría: <%= categoria.toUpperCase() %>
+        </h1>
+
+        <div class="enlaces-nav">
+            <a href="/home">← Volver al Home</a>
+            <a href="/carrito">Ver Carrito 🛒</a>
+        </div>
+
     </div>
 
-    <!-- Botones de Filtro por Género Estilizados -->
     <div class="filtros-genero">
-      <strong>Filtrar por género:</strong>
-      <a href="/shop/categoria/<%= categoria %>" class="btn-filtro">Todos</a>
-      <a href="/shop/categoria/<%= categoria %>?genero=niña" class="btn-filtro nina">Niña 👧</a>
-      <a href="/shop/categoria/<%= categoria %>?genero=niño" class="btn-filtro nino">Niño 👦</a>
+
+        <strong>Filtrar por género:</strong>
+
+        <a href="/shop/categoria/<%= categoria %>" class="btn-filtro">
+            Todos
+        </a>
+
+        <a href="/shop/categoria/<%= categoria %>?genero=niña" class="btn-filtro nina">
+            Niña 👧
+        </a>
+
+        <a href="/shop/categoria/<%= categoria %>?genero=niño" class="btn-filtro nino">
+            Niño 👦
+        </a>
+
     </div>
+
 
     <% if (!generoActual) { %>
-      <div class="mensaje-vacio">
-        👉 Por favor, selecciona un filtro de género (<strong>Niña</strong> o <strong>Niño</strong>) o haz clic en <strong>Todos</strong> para ver los productos disponibles.
-      </div>
+
+        <div class="mensaje-vacio">
+
+            👉 Por favor, selecciona un filtro de género
+            (<strong>Niña</strong> o <strong>Niño</strong>)
+            o haz clic en <strong>Todos</strong> para ver los productos disponibles.
+
+        </div>
+
+
     <% } else if (!productos || productos.length === 0) { %>
-      <div class="mensaje-vacio">
-        No se encontraron productos para esta selección.
-      </div>
+
+        <div class="mensaje-vacio">
+
+            No se encontraron productos para esta selección.
+
+        </div>
+
+
     <% } else { %>
-      <div class="grid-productos">
-        <% productos.forEach(function (p) { %>
-          <% 
-            let nombreLimpio = p.name
-              .replace(/niña/gi, '')
-              .replace(/niño/gi, '')
-              .trim();
-          %>
-          <div class="card-producto">
-            <div>
-              <img src="<%= p.image %>" alt="<%= nombreLimpio %>">
-              <h3><%= nombreLimpio %></h3>
-              <div class="precio-producto">$ <%= Number(p.price).toLocaleString('es-CO') %></div>
-            </div>
 
-            <div>
-              <% 
-                const catLower = categoria.toLowerCase();
-                const esRopa = ['ropa', 'camisas', 'pantalones', 'vestidos', 'conjuntos', 'pijamas', 'abrigos'].includes(catLower);
-                const esZapatos = ['zapatos', 'zapatitos', 'calzado'].includes(catLower);
-              %>
 
-              <% if (esRopa) { %>
-                <label for="talla-<%= p.id %>">Selecciona Talla:</label>
-                <select id="talla-<%= p.id %>">
-                  <option value="NB">NB</option>
-                  <option value="0-3M">0-3M</option>
-                  <option value="3-6M">3-6M</option>
-                  <option value="6-12M">6-12M</option>
-                  <option value="12-18M">12-18M</option>
-                  <option value="18-24M">18-24M</option>
-                </select>
-              <% } else if (esZapatos) { %>
-                <label for="talla-<%= p.id %>">Talla (EU):</label>
-                <select id="talla-<%= p.id %>">
-                  <option value="15 - 16">15 - 16</option>
-                  <option value="16 - 17">16 - 17</option>
-                  <option value="17 - 18">17 - 18</option>
-                  <option value="18 - 19">18 - 19</option>
-                  <option value="19 - 20">19 - 20</option>
-                  <option value="20 - 21">20 - 21</option>
-                </select>
-              <% } %>
+        <div class="grid-productos">
 
-              <button class="btn-carrito" onclick="agregarAlCarrito('<%= p.id %>', '<%= nombreLimpio %>', <%= p.price %>, '<%= p.image %>')">
-                Añadir al carrito
-              </button>
-            </div>
-          </div>
-        <% }) %>
-      </div>
+            <% productos.forEach(function (p) { %>
+
+                <%
+                    let nombreLimpio = p.name
+                        .replace(/niña/gi, '')
+                        .replace(/niño/gi, '')
+                        .trim();
+
+                    const catLower = categoria.toLowerCase();
+
+                    const esRopa = [
+                        'ropa',
+                        'camisas',
+                        'pantalones',
+                        'vestidos',
+                        'conjuntos',
+                        'pijamas',
+                        'abrigos'
+                    ].includes(catLower);
+
+                    const esZapatos = [
+                        'zapatos',
+                        'zapatitos',
+                        'calzado'
+                    ].includes(catLower);
+                %>
+
+
+                <div class="card-producto">
+
+                    <div>
+
+                        <!-- Al hacer clic en imagen o nombre abre el detalle -->
+
+                        <a
+                            href="/detalleproducto/<%= p.id %>"
+                            class="producto-enlace"
+                        >
+
+                            <img
+                                src="<%= p.image %>"
+                                alt="<%= nombreLimpio %>"
+                            >
+
+                            <h3>
+                                <%= nombreLimpio %>
+                            </h3>
+
+                        </a>
+
+
+                        <div class="precio-producto">
+
+                            $ <%= Number(p.price).toLocaleString('es-CO') %>
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+
+                        <% if (esRopa) { %>
+
+                            <label for="talla-<%= p.id %>">
+                                Selecciona Talla:
+                            </label>
+
+                            <select id="talla-<%= p.id %>">
+
+                                <option value="NB">NB</option>
+                                <option value="0-3M">0-3M</option>
+                                <option value="3-6M">3-6M</option>
+                                <option value="6-12M">6-12M</option>
+                                <option value="12-18M">12-18M</option>
+                                <option value="18-24M">18-24M</option>
+
+                            </select>
+
+
+                        <% } else if (esZapatos) { %>
+
+
+                            <label for="talla-<%= p.id %>">
+                                Talla (EU):
+                            </label>
+
+                            <select id="talla-<%= p.id %>">
+
+                                <option value="15 - 16">15 - 16</option>
+                                <option value="16 - 17">16 - 17</option>
+                                <option value="17 - 18">17 - 18</option>
+                                <option value="18 - 19">18 - 19</option>
+                                <option value="19 - 20">19 - 20</option>
+                                <option value="20 - 21">20 - 21</option>
+
+                            </select>
+
+
+                        <% } %>
+
+
+                        <button
+                            class="btn-carrito"
+                            onclick="agregarAlCarrito('<%= p.id %>', '<%= nombreLimpio %>', '<%= p.price %>', '<%= p.image %>')"
+                        >
+                            Añadir al carrito
+                        </button>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+
     <% } %>
-  </div>
 
-  <script>
+</div>
+
+
+<script>
+
     function agregarAlCarrito(id, nombre, precio, imagen) {
-      const selectTalla = document.getElementById(`talla-${id}`);
-      const tallaSeleccionada = selectTalla ? selectTalla.value : 'Única';
 
-      let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-      
-      carrito.push({ 
-        id: id, 
-        name: nombre, 
-        price: precio, 
-        image: imagen, 
-        talla: tallaSeleccionada 
-      });
-      
-      localStorage.setItem('carrito', JSON.stringify(carrito));
-      alert(`¡${nombre} ${tallaSeleccionada !== 'Única' ? '(Talla: ' + tallaSeleccionada + ')' : ''} se añadió al carrito con éxito!`);
+        precio = Number(precio);
+
+        const selectTalla =
+            document.getElementById(`talla-${id}`);
+
+        const tallaSeleccionada =
+            selectTalla ? selectTalla.value : 'Única';
+
+
+        let carrito =
+            JSON.parse(localStorage.getItem('carrito')) || [];
+
+
+        carrito.push({
+
+            id: id,
+
+            name: nombre,
+
+            price: precio,
+
+            image: imagen,
+
+            talla: tallaSeleccionada
+
+        });
+
+
+        localStorage.setItem(
+            'carrito',
+            JSON.stringify(carrito)
+        );
+
+
+        alert(
+            `¡${nombre} ${
+                tallaSeleccionada !== 'Única'
+                    ? '(Talla: ' + tallaSeleccionada + ')'
+                    : ''
+            } se añadió al carrito con éxito!`
+        );
+
     }
-  </script>
+
+</script>
+```
+
 </body>
+
 </html>

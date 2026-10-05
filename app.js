@@ -31,7 +31,7 @@ app.get('/shop/categoria/:nombre', shopController.verCategoria);
 app.get('/nosotros', shopController.mostrarNosotros);
 app.get('/contacto', shopController.mostrarContacto);
 app.get('/carrito', shopController.mostrarCarrito);
-app.get('/detalleproducto', shopController.mostrarDetalleProducto);
+app.get('/detalleproducto/:id', shopController.mostrarDetalleProducto);
 
 // ==========================================
 // RUTAS DE LOGIN Y REGISTRO (Vistas GET)

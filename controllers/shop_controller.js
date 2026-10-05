@@ -12,9 +12,14 @@ exports.mostrarHome = (req, res) => {
 exports.mostrarCarrito = (req, res) => {
     res.render('shop/carrito');
 };
-
 exports.mostrarDetalleProducto = (req, res) => {
-    res.render('shop/detalleproducto');
+    const producto = products.find(p => String(p.id) === String(req.params.id));
+
+    if (!producto) {
+        return res.status(404).send('Producto no encontrado');
+    }
+
+    res.render('shop/detalleproducto', { producto });
 };
 
 exports.mostrarContacto = (req, res) => {
