@@ -78,11 +78,13 @@
                     ${prod.talla && prod.talla !== 'Única' ? `<p style="margin: 2px 0; font-size: 13px; color: #666;">Talla: <b>${prod.talla}</b></p>` : ''}
                     <p style="margin: 5px 0; font-weight: bold; color: #28a745;">$ ${precioNum.toLocaleString('es-CO')}</p>
                     
-                    <span class="cantidad">
-                        <button onclick="cambiarCantidad(${index}, -1)">-</button>
-                        <span class="numero">${prod.cantidad}</span>
-                        <button onclick="cambiarCantidad(${index}, 1)">+</button>
-                    </span>
+                    <div class="cantidad">
+                 <button class="btn-cantidad btn-restar" onclick="cambiarCantidad(${index}, -1)">−</button>
+
+                  <span class="numero">${prod.cantidad}</span>
+
+                 <button class="btn-cantidad btn-sumar" onclick="cambiarCantidad(${index}, 1)">+</button>
+                    </div>
                     <button onclick="eliminarProducto(${index})" style="background: #ff4d4d; color: white; border: none; padding: 4px 8px; margin-top: 5px; cursor: pointer; border-radius: 4px; font-size: 12px;">Eliminar</button>
                 </div>
             `;

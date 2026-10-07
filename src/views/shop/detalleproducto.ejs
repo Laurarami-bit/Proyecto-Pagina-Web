@@ -1,844 +1,213 @@
-<%- include('../partials/head-publico', { title: 'detalleproducto' }) %>
+<%- include('../partials/head-publico', { title: 'Carrito' }) %>
 
-<link rel="stylesheet" href="/css/detalleproducto.css">
+<link rel="stylesheet" href="/css/carrito.css">
 
-<%- include('../partials/header-publico') %>
+<div class="contenedor-carrito">
 
+    <div class="mi-carrito">
 
-<div class="contenedor">
+        <h2>🛒 Mi Carrito</h2>
 
-    <!-- ENCABEZADO -->
-
-    <div class="encabezado">
-
-        <h1>
-            Angelitos con amor
-        </h1>
-
-        <hr>
+        <div id="lista-carrito">
+            <p>Tu carrito está vacío.</p>
+        </div>
 
     </div>
 
+    <div class="resumen">
 
-    <!-- PRODUCTO -->
-
-    <div class="producto-detalle">
-
-        <!-- NOMBRE -->
-
-        <h2 class="producto-nombre">
-
-            <%= producto.name %>
-
-        </h2>
-
-
-        <!-- PRECIO -->
-
-        <div class="precio">
-
-            $ <%= Number(producto.price).toLocaleString('es-CO') %>
-
+        <div class="linea-resumen">
+            <p>Subtotal</p>
+            <p id="subtotal-texto">$0</p>
         </div>
 
-
-        <!-- DESCRIPCIÓN -->
-
-        <%
-
-            const categoria = producto.category.toLowerCase();
-
-            let descripcion = '';
-
-
-            if (categoria === 'camisas') {
-
-                descripcion =
-                    'Camisa cómoda y versátil para niños y niñas. Ideal para el uso diario y diferentes ocasiones.';
-
-            }
-
-            else if (categoria === 'pantalones') {
-
-                descripcion =
-                    'Pantalón cómodo y práctico para que los niños puedan moverse libremente durante sus actividades.';
-
-            }
-
-            else if (categoria === 'zapatos') {
-
-                descripcion =
-                    'Calzado cómodo y práctico para los más pequeños. Ideal para acompañar sus actividades del día a día.';
-
-            }
-
-            else if (categoria === 'juguetes') {
-
-                descripcion =
-                    'Juguete pensado para brindar diversión y entretenimiento a los más pequeños.';
-
-            }
-
-            else if (categoria === 'aseo') {
-
-                descripcion =
-                    'Producto de aseo pensado para el cuidado y bienestar de los más pequeños.';
-
-            }
-
-            else if (categoria === 'abrigos') {
-
-                descripcion =
-                    'Abrigo cómodo y cálido, ideal para proteger a los niños y niñas durante los días fríos.';
-
-            }
-
-            else if (categoria === 'conjuntos') {
-
-                descripcion =
-                    'Conjunto infantil cómodo y práctico, ideal para vestir a los más pequeños.';
-
-            }
-
-            else if (categoria === 'vestidos') {
-
-                descripcion =
-                    'Prenda infantil cómoda y bonita, ideal para diferentes ocasiones.';
-
-            }
-
-            else {
-
-                descripcion =
-                    'Producto infantil diseñado pensando en la comodidad de los más pequeños.';
-
-            }
-
-        %>
-
-
-        <div class="descripcion">
-
-            <h3>
-                Descripción
-            </h3>
-
-            <p>
-
-                <%= descripcion %>
-
-            </p>
-
+        <div class="linea-resumen">
+            <p><b>Envío</b></p>
+            <p>$10.000</p>
         </div>
 
-
-        <!-- INFORMACIÓN -->
-
-        <div class="informacion">
-
-            <p>
-
-                <strong>
-                    Categoría:
-                </strong>
-
-                <%= producto.category %>
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Género:
-                </strong>
-
-                <%= producto.gender %>
-
-            </p>
-
+        <div class="linea-resumen total">
+            <p>Total</p>
+            <p id="total-texto">$10.000</p>
         </div>
 
-
-        <!-- OPCIONES -->
-
-        <div class="opciones">
-
-            <%
-
-                let mostrarTalla = false;
-
-                let mostrarColor = false;
-
-                let tallas = [];
-
-                let colores = [];
-
-
-                /* =========================
-                   TALLAS DE ROPA
-                ========================= */
-
-                if (
-
-                    categoria === 'camisas' ||
-
-                    categoria === 'pantalones' ||
-
-                    categoria === 'vestidos' ||
-
-                    categoria === 'conjuntos' ||
-
-                    categoria === 'abrigos'
-
-                ) {
-
-                    mostrarTalla = true;
-
-                    tallas = [
-
-                        'NB',
-
-                        '0-3M',
-
-                        '3-6M',
-
-                        '6-12M',
-
-                        '12-18M',
-
-                        '18-24M'
-
-                    ];
-
-                }
-
-
-                /* =========================
-                   TALLAS DE ZAPATOS
-                ========================= */
-
-                if (categoria === 'zapatos') {
-
-                    mostrarTalla = true;
-
-                    tallas = [
-
-                        '15 - 16',
-
-                        '16 - 17',
-
-                        '17 - 18',
-
-                        '18 - 19',
-
-                        '19 - 20',
-
-                        '20 - 21'
-
-                    ];
-
-                }
-
-
-                /* =========================
-                   COLORES DE CAMISAS
-                ========================= */
-
-                if (categoria === 'camisas') {
-
-                    mostrarColor = true;
-
-                    colores = [
-
-                        'Rosado',
-
-                        'Azul',
-
-                        'Blanco',
-
-                        'Amarillo'
-
-                    ];
-
-                }
-
-
-                /* =========================
-                   COLORES DE PANTALONES
-                ========================= */
-
-                if (categoria === 'pantalones') {
-
-                    mostrarColor = true;
-
-                    colores = [
-
-                        'Azul',
-
-                        'Negro',
-
-                        'Gris'
-
-                    ];
-
-                }
-
-
-                /* =========================
-                   COLORES DE VESTIDOS
-                ========================= */
-
-                if (categoria === 'vestidos') {
-
-                    mostrarColor = true;
-
-                    colores = [
-
-                        'Rosado',
-
-                        'Blanco',
-
-                        'Rojo',
-
-                        'Azul'
-
-                    ];
-
-                }
-
-
-                /* =========================
-                   COLORES DE CONJUNTOS
-                ========================= */
-
-                if (categoria === 'conjuntos') {
-
-                    mostrarColor = true;
-
-                    colores = [
-
-                        'Rosado',
-
-                        'Azul',
-
-                        'Blanco',
-
-                        'Gris'
-
-                    ];
-
-                }
-
-
-                /* =========================
-                   COLORES DE ABRIGOS
-                ========================= */
-
-                if (categoria === 'abrigos') {
-
-                    mostrarColor = true;
-
-                    colores = [
-
-                        'Rosado',
-
-                        'Azul',
-
-                        'Gris',
-
-                        'Beige'
-
-                    ];
-
-                }
-
-
-                /* =========================
-                   COLORES DE ZAPATOS
-                ========================= */
-
-                if (categoria === 'zapatos') {
-
-                    mostrarColor = true;
-
-                    colores = [
-
-                        'Rosado',
-
-                        'Azul',
-
-                        'Blanco',
-
-                        'Negro'
-
-                    ];
-
-                }
-
-
-                /* =========================
-                   COLORES DE JUGUETES
-                ========================= */
-
-                if (categoria === 'juguetes') {
-
-                    mostrarColor = true;
-
-                    colores = [
-
-                        'Rojo',
-
-                        'Azul',
-
-                        'Amarillo',
-
-                        'Verde'
-
-                    ];
-
-                }
-
-            %>
-
-
-            <!-- =========================
-                 TALLA
-            ========================= -->
-
-            <% if (mostrarTalla) { %>
-
-                <div class="opcion">
-
-                    <label for="talla">
-
-                        Talla:
-
-                    </label>
-
-
-                    <select id="talla">
-
-                        <% tallas.forEach(function(talla) { %>
-
-                            <option value="<%= talla %>">
-
-                                <%= talla %>
-
-                            </option>
-
-                        <% }); %>
-
-                    </select>
-
-                </div>
-
-            <% } %>
-
-
-            <!-- =========================
-                 COLOR
-            ========================= -->
-
-            <% if (mostrarColor) { %>
-
-                <div class="opcion">
-
-                    <label>
-
-                        Color:
-
-                    </label>
-
-
-                    <div class="colores">
-
-                        <% colores.forEach(function(color, index) { %>
-
-                            <button
-                                type="button"
-                                class="color-circulo <%= index === 0 ? 'seleccionado' : '' %> color-<%= color.toLowerCase() %>"
-                                data-color="<%= color %>"
-                                onclick="seleccionarColor(this)"
-                                title="<%= color %>"
-                            >
-                            </button>
-
-                        <% }); %>
-
-                    </div>
-
-
-                    <div id="color-seleccionado">
-
-                        Color seleccionado:
-                        <strong>
-                            <%= colores[0] %>
-                        </strong>
-
-                    </div>
-
-
-                    <input
-                        type="hidden"
-                        id="color"
-                        value="<%= colores[0] %>"
-                    >
-
-                </div>
-
-            <% } %>
-
-
-            <!-- =========================
-                 CANTIDAD
-            ========================= -->
-
-            <div class="opcion">
-
-                <label>
-
-                    Cantidad:
-
-                </label>
-
-
-                <div class="cantidad-control">
-
-                    <button
-                        type="button"
-                        class="btn-cantidad"
-                        onclick="restarCantidad()"
-                    >
-
-                        −
-
-                    </button>
-
-
-                    <span id="cantidad">
-
-                        1
-
-                    </span>
-
-
-                    <button
-                        type="button"
-                        class="btn-cantidad"
-                        onclick="sumarCantidad()"
-                    >
-
-                        +
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             AÑADIR AL CARRITO
-        ========================= -->
-
-        <button
-            type="button"
-            class="btn-carrito"
-            onclick="agregarAlCarrito()"
-        >
-
-            Añadir al carrito
-
+        <button class="btn-comprar" onclick="finalizarCompra()">
+            Finalizar Compra
         </button>
 
-
-        <!-- =========================
-             BOTONES
-        ========================= -->
-
-        <div class="botones">
-
-            <a
-                href="/shop/categoria/<%= producto.category %>?genero=<%= producto.gender %>"
-                class="boton volver"
-            >
-
-                ← Volver a productos
-
-            </a>
-
-
-            <a
-                href="/carrito"
-                class="boton carrito"
-            >
-
-                🛒 Ver carrito
-
-            </a>
-
-        </div>
+        <p style="text-align: center;">
+            <b>Pago Seguro</b>
+        </p>
 
     </div>
 
 </div>
 
-
-<!-- =========================
-     JAVASCRIPT
-========================= -->
-
 <script>
 
+document.addEventListener("DOMContentLoaded", () => {
+    cargarCarrito();
+});
 
-    /* =========================
-       SUMAR CANTIDAD
-    ========================= */
+function cargarCarrito() {
 
-    function sumarCantidad() {
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-        const cantidad =
-            document.getElementById('cantidad');
+    const contenedor = document.getElementById('lista-carrito');
+    const subtotalTexto = document.getElementById('subtotal-texto');
+    const totalTexto = document.getElementById('total-texto');
 
+    contenedor.innerHTML = '';
 
-        let numero =
-            parseInt(cantidad.textContent);
+    if (carrito.length === 0) {
 
+        contenedor.innerHTML = '<p>Tu carrito está vacío.</p>';
 
-        if (numero < 10) {
+        subtotalTexto.innerText = '$0';
+        totalTexto.innerText = '$10.000';
 
-            numero++;
-
-        }
-
-
-        cantidad.textContent = numero;
-
+        return;
     }
 
+    let subtotal = 0;
 
+    carrito.forEach((prod, index) => {
 
-    /* =========================
-       RESTAR CANTIDAD
-    ========================= */
-
-    function restarCantidad() {
-
-        const cantidad =
-            document.getElementById('cantidad');
-
-
-        let numero =
-            parseInt(cantidad.textContent);
-
-
-        if (numero > 1) {
-
-            numero--;
-
+        if (!prod.cantidad) {
+            prod.cantidad = 1;
         }
 
+        let precioNum = Number(prod.price) || 0;
 
-        cantidad.textContent = numero;
+        subtotal += precioNum * prod.cantidad;
 
-    }
+        const divProducto = document.createElement('div');
 
+        divProducto.classList.add('producto');
 
+        divProducto.innerHTML = `
 
-    /* =========================
-       SELECCIONAR COLOR
-    ========================= */
+            <img src="${prod.image}" alt="${prod.name}">
 
-    function seleccionarColor(boton) {
+            <div class="info-producto">
 
-        const color =
-            boton.getAttribute('data-color');
+                <h3>${prod.name}</h3>
 
+                ${
+                    prod.talla && prod.talla !== 'Única'
+                    ? `<p class="talla">Talla: <b>${prod.talla}</b></p>`
+                    : ''
+                }
 
-        const inputColor =
-            document.getElementById('color');
+                <p class="precio">
+                    $ ${precioNum.toLocaleString('es-CO')}
+                </p>
 
+                <div class="cantidad">
 
-        const textoColor =
-            document.getElementById('color-seleccionado');
+                    <button
+                        class="btn-cantidad btn-restar"
+                        onclick="cambiarCantidad(${index}, -1)">
+                        −
+                    </button>
 
+                    <span class="numero">
+                        ${prod.cantidad}
+                    </span>
 
-        /* Guardar color */
+                    <button
+                        class="btn-cantidad btn-sumar"
+                        onclick="cambiarCantidad(${index}, 1)">
+                        +
+                    </button>
 
-        inputColor.value = color;
+                </div>
 
+                <button
+                    class="btn-eliminar"
+                    onclick="eliminarProducto(${index})">
+                    Eliminar
+                </button>
 
-        /* Mostrar color */
+            </div>
+        `;
 
-        textoColor.innerHTML =
-            'Color seleccionado: <strong>' +
-            color +
-            '</strong>';
+        contenedor.appendChild(divProducto);
+    });
 
+    let envio = 10000;
 
-        /* Quitar selección anterior */
+    let total = subtotal + envio;
 
-        const botones =
-            document.querySelectorAll('.color-circulo');
+    subtotalTexto.innerText =
+        `$ ${subtotal.toLocaleString('es-CO')}`;
 
-
-        botones.forEach(function(botonColor) {
-
-            botonColor.classList.remove('seleccionado');
-
-        });
-
-
-        /* Marcar color seleccionado */
-
-        boton.classList.add('seleccionado');
-
-    }
-
-
-
-    /* =========================
-       AGREGAR AL CARRITO
-    ========================= */
-
-    function agregarAlCarrito() {
-
-
-        /* TALLA */
-
-        const elementoTalla =
-            document.getElementById('talla');
+    totalTexto.innerText =
+        `$ ${total.toLocaleString('es-CO')}`;
+}
 
 
-        let talla = 'Única';
+function cambiarCantidad(index, cambio) {
 
+    let carrito =
+        JSON.parse(localStorage.getItem('carrito')) || [];
 
-        if (elementoTalla) {
+    if (carrito[index]) {
 
-            talla =
-                elementoTalla.value;
+        carrito[index].cantidad =
+            (carrito[index].cantidad || 1) + cambio;
 
+        if (carrito[index].cantidad <= 0) {
+            carrito.splice(index, 1);
         }
-
-
-
-        /* COLOR */
-
-        const elementoColor =
-            document.getElementById('color');
-
-
-        let color = 'Único';
-
-
-        if (elementoColor) {
-
-            color =
-                elementoColor.value;
-
-        }
-
-
-
-        /* CANTIDAD */
-
-        const elementoCantidad =
-            document.getElementById('cantidad');
-
-
-        let cantidad = 1;
-
-
-        if (elementoCantidad) {
-
-            cantidad =
-                parseInt(elementoCantidad.textContent);
-
-        }
-
-
-
-        /* PRODUCTO */
-
-        const productoCarrito = {
-
-            id:
-                '<%= producto.id %>',
-
-            name:
-                '<%= producto.name %>',
-
-            price:
-                Number('<%= producto.price %>'),
-
-            image:
-                '<%= producto.image %>',
-
-            talla:
-                talla,
-
-            color:
-                color,
-
-            cantidad:
-                cantidad
-
-        };
-
-
-
-        /* OBTENER CARRITO */
-
-        let carrito =
-            JSON.parse(
-                localStorage.getItem('carrito')
-            ) || [];
-
-
-
-        /* AGREGAR PRODUCTO */
-
-        carrito.push(
-            productoCarrito
-        );
-
-
-
-        /* GUARDAR CARRITO */
 
         localStorage.setItem(
             'carrito',
             JSON.stringify(carrito)
         );
 
+        cargarCarrito();
+    }
+}
 
 
-        /* MENSAJE */
+function eliminarProducto(index) {
 
-        alert(
+    let carrito =
+        JSON.parse(localStorage.getItem('carrito')) || [];
 
-            'Producto añadido al carrito.\n\n' +
+    carrito.splice(index, 1);
 
-            'Producto: ' +
-            productoCarrito.name +
+    localStorage.setItem(
+        'carrito',
+        JSON.stringify(carrito)
+    );
 
-            '\nTalla: ' +
-            productoCarrito.talla +
+    cargarCarrito();
+}
 
-            '\nColor: ' +
-            productoCarrito.color +
 
-            '\nCantidad: ' +
-            productoCarrito.cantidad
+function finalizarCompra() {
 
-        );
+    let carrito =
+        JSON.parse(localStorage.getItem('carrito')) || [];
 
+    if (carrito.length === 0) {
+
+        alert('Tu carrito está vacío.');
+
+        return;
     }
 
-</script>
+    alert(
+        '¡Compra realizada con éxito, gracias por confiar en Angelitos Con Amor!'
+    );
 
+    localStorage.removeItem('carrito');
+
+    cargarCarrito();
+}
+
+</script>
 
 <%- include('../partials/footer') %>
