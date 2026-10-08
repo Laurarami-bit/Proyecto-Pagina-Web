@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const { randomUUID } = require('crypto');
 
 const USERS_FILE = path.join(__dirname, '..', '..', 'data', 'users.json');
+console.log('Ruta del archivo:', USERS_FILE);
 
 function readUsers() {
     try {
@@ -44,9 +45,9 @@ exports.mostrarRegistro = (req, res) => {
 };
 
 exports.procesarRegistro = async (req, res) => {
-    const { nombre, usuario, correo, contrasena, contrasenacon } = req.body;
+    const { firstName, lastName, email, password, category, contrasenacon } = req.body;
 
-    if (contrasena !== contrasenacon) {
+    if (password !== contrasenacon) {
         return res.send('Las contraseñas no coinciden');
     }
 
@@ -54,10 +55,11 @@ exports.procesarRegistro = async (req, res) => {
 
     const nuevoUsuario = {
         id: randomUUID(),
-        nombre,
-        usuario,
-        correo,
-        contrasena: await bcrypt.hash(contrasena, 100)
+        firstName,
+        lastName,
+        category,
+        email,
+        password: await bcrypt.hash(password, 100)
     };
 
     users.push(nuevoUsuario);

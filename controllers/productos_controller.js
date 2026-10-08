@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { randomUUID } = require('crypto');
 
-const DATA_FILE = path.join(__dirname, '..', '..', 'data', 'products.json');
+const DATA_FILE = path.join(__dirname, '..', 'data', 'products.json');
 const CATEGORIES = ['Ropa para bebé', 'Coches y paseo', 'Juguetes', 'Accesorios'];
 const COLORS = ['Blanco', 'Beige', 'Rosa', 'Celeste', 'Amarillo', 'Verde', 'Gris', 'Azul', 'Rojo', 'Negro', 'Multicolor'];
 

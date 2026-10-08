@@ -61,3 +61,15 @@
         top: 20px;
         right: 20px;
     }
+    .campo-pequeno input {
+    width: 80%;
+}
+.campo select {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #e8e8e8;
+    box-sizing: border-box;
+    margin-top: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}

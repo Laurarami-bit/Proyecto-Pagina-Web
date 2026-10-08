@@ -21,65 +21,51 @@
     <form action="/usuarios/registro" method="POST">
 
         <div class="campo">
-            <label for="nombre">👤 NOMBRE COMPLETO</label>
-            <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                placeholder="INGRESA TU NOMBRE"
-                required
-            >
-        </div>
+        <label for="firstName">👤 NOMBRE</label>
+        <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        placeholder="INGRESA TU NOMBRE"
+        required
+          >
+          </div>
+        <div class="campo">
+        <label for="lastName">👤 Apellido</label>
+        <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        placeholder="INGRESA TU APELLIDO"
+        required
+          >
+          </div>
 
         <div class="campo">
-            <label for="usuario">👤 CREA TU USUARIO</label>
-            <input
-                type="text"
-                id="usuario"
-                name="usuario"
-                placeholder="CREA TU USUARIO"
-                required
-            >
+        <label for="category">👤 CATEGORÍA</label>
+        <select id="category" name="category" required>
+        <option value="">SELECCIONA UNA CATEGORÍA</option>
+        <option value="cliente">CLIENTE</option>
+        <option value="administrador">TRABAJADOR</option>
+        </select>
         </div>
 
         <div class="campo ancho">
-            <label for="correo">✉️ CORREO ELECTRÓNICO</label>
+            <label for="email">✉️ CORREO ELECTRÓNICO</label>
             <input
                 type="email"
-                id="correo"
-                name="correo"
+                id="email"
+                name="email"
                 placeholder="laura@correo.com"
                 required
             >
         </div>
-
         <div class="campo">
-            <label for="telefono">📞 TELÉFONO</label>
-            <input
-                type="tel"
-                id="telefono"
-                name="telefono"
-                placeholder="INGRESA TU NÚMERO"
-                required
-            >
-        </div>
-
-        <div class="campo">
-            <label for="fecha">📅 FECHA DE NACIMIENTO</label>
-            <input
-                type="date"
-                id="fecha"
-                name="fecha"
-                required
-            >
-        </div>
-
-        <div class="campo">
-            <label for="contrasena">🔒 CREA TU CONTRASEÑA</label>
+            <label for="password">🔒 CREA TU CONTRASEÑA</label>
             <input
                 type="password"
-                id="contrasena"
-                name="contrasena"
+                id="`password"
+                name="password"
                 placeholder="CREA TU CONTRASEÑA"
                 minlength="8"
                 required
@@ -97,29 +83,6 @@
                 required
             >
         </div>
-
-        <div class="campo">
-            <label for="direccion">🏠 INGRESA TU DIRECCIÓN</label>
-            <input
-                type="text"
-                id="direccion"
-                name="direccion"
-                placeholder="INGRESA TU DIRECCIÓN"
-                required
-            >
-        </div>
-
-        <div class="campo">
-            <label for="ciudad">🏙️ CIUDAD</label>
-            <input
-                type="text"
-                id="ciudad"
-                name="ciudad"
-                placeholder="INGRESA TU CIUDAD"
-                required
-            >
-        </div>
-
         <div class="terminos">
             <label for="terminos">
                 ACEPTO LOS TÉRMINOS Y CONDICIONES
