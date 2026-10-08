@@ -1,33 +1,25 @@
-# 🔄 Retrospectiva del Sprint 2
+***Retrospectiva del Sprint***
+## 1. Comenzar a hacer
+- 
+- 
 
----
+## 2. Hacer más
+- 
+- 
+- 
 
-## 🚀 1. Comenzar a hacer
+## 3. Continuar haciendo
+- 
+- 
+- 
 
-*
-*
+## 4. Hacer menos
+- 
+- 
+- 
 
-## 📈 2. Hacer más
+## 5. Dejar de hacer
+- 
+- 
 
-*
-*
-*
-
-## ✅ 3. Continuar haciendo
-
-*
-*
-*
-
-## ⏳ 4. Hacer menos
-
-*
-*
-*
-
-## 🛑 5. Dejar de hacer
-
-*
-*
-
----
+  
