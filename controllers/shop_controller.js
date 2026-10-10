@@ -1,9 +1,32 @@
 const fs = require('fs');
 const path = require('path');
 
-// Leemos los productos desde el archivo JSON en la carpeta data
 const productsFilePath = path.join(__dirname, '../data/products.json');
-const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
+
+function leerProductos() {
+    if (!fs.existsSync(productsFilePath)) {
+        return [];
+    }
+
+    const contenido = fs.readFileSync(productsFilePath, 'utf-8');
+    const productos = JSON.parse(contenido);
+
+    if (!Array.isArray(productos)) {
+        throw new Error('El archivo products.json no contiene una lista válida.');
+    }
+
+    return productos;
+}
+
+function normalizar(texto) {
+    return String(texto || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[-_]+/g, ' ')
+        .trim()
+        .replace(/\s+/g, ' ');
+}
 
 exports.mostrarHome = (req, res) => {
     res.render('shop/home');
@@ -12,8 +35,13 @@ exports.mostrarHome = (req, res) => {
 exports.mostrarCarrito = (req, res) => {
     res.render('shop/carrito');
 };
+
 exports.mostrarDetalleProducto = (req, res) => {
-    const producto = products.find(p => String(p.id) === String(req.params.id));
+    const productos = leerProductos();
+
+    const producto = productos.find(
+        p => String(p.id) === String(req.params.id)
+    );
 
     if (!producto) {
         return res.status(404).send('Producto no encontrado');
@@ -30,25 +58,31 @@ exports.mostrarNosotros = (req, res) => {
     res.render('shop/nosotros');
 };
 
-// Función para filtrar y mostrar los productos solo cuando se seleccione un género
 exports.verCategoria = (req, res) => {
-    const categoriaBuscada = req.params.nombre.toLowerCase().trim();
-    const generoBuscado = req.query.genero ? req.query.genero.toLowerCase().trim() : null;
-    
-    // Si no hay un género seleccionado en la URL, la lista empieza vacía
+    const productos = leerProductos();
+
+    const categoriaBuscada = normalizar(req.params.nombre);
+    const generoBuscado = req.query.genero
+        ? normalizar(req.query.genero)
+        : '';
+
     let productosFiltrados = [];
 
     if (generoBuscado) {
-        productosFiltrados = products.filter(p => {
-            const coincideCategoria = p.category && p.category.toLowerCase().trim() === categoriaBuscada;
-            const coincideGenero = p.gender && p.gender.toLowerCase().trim() === generoBuscado;
+        productosFiltrados = productos.filter(producto => {
+            const coincideCategoria =
+                normalizar(producto.category) === categoriaBuscada;
+
+            const coincideGenero =
+                normalizar(producto.gender) === generoBuscado;
+
             return coincideCategoria && coincideGenero;
         });
     }
 
-    res.render('products/list', { 
-        productos: productosFiltrados, 
+    res.render('products/list', {
+        productos: productosFiltrados,
         categoria: req.params.nombre,
-        generoActual: generoBuscado 
+        generoActual: generoBuscado
     });
 };

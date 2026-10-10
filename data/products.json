@@ -1537,7 +1537,7 @@
   },
   {
     "id": "a9cf951e-da18-4c36-8df5-27dc36e11198",
-    "name": "uuuu",
+    "name": "ivannnnnn",
     "description": "asjkfhslafh",
     "category": "Juguetes",
     "price": 6,
@@ -1545,21 +1545,23 @@
     "image": "/uploads/1791497464805.webp"
   },
   {
-    "id": "b4872931-6bb8-4922-85dd-f3c4dc26a95a",
-    "name": "uuuu",
-    "description": "asjkfhslafh",
+    "id": "84e089e3-6285-4c70-a94d-5ca7b8e33d1b",
+    "name": "PELUCHITO",
+    "description": "peluche grande",
     "category": "Juguetes",
-    "price": 6,
-    "color": "Rojo",
-    "image": "/uploads/1791497482120.webp"
+    "gender": "unisex",
+    "price": 100000,
+    "color": "Blanco",
+    "image": "/uploads/1791663157590-945201539.jpg"
   },
   {
-    "id": "d191f933-0b88-494e-a90a-c737ff457a8b",
-    "name": "uuuu",
-    "description": "asjkfhslafh",
-    "category": "Juguetes",
-    "price": 6,
-    "color": "Rojo",
-    "image": "/uploads/1791497974147.jpg"
+    "id": "eb5066ff-cf30-482d-b397-77debd4448ed",
+    "name": "j7nj7n",
+    "description": "7nj7jj",
+    "category": "Ropa para bebé",
+    "gender": "niña",
+    "price": 78777,
+    "color": "Beige",
+    "image": "/uploads/1791663316152-8948301.png"
   }
 ]

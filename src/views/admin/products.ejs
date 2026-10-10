@@ -1,28 +1,155 @@
+
 <%- include('../partials/header', { title }) %>
 
-<h1>Productos</h1>
+<link rel="stylesheet" href="/css/style.css">
 
-<% if (!products.length) { %>
-  <p>Todavía no hay productos.</p>
-<% } else { %>
-  <table>
-    <tr>
-      <th>Imagen</th>
-      <th>Nombre</th>
-      <th>Categoría</th>
-      <th>Precio</th>
-      <th></th>
-    </tr>
-    <% products.forEach(function (p) { %>
-      <tr>
-        <td><img src="<%= p.image %>" alt=""></td>
-        <td><%= p.name %></td>
-        <td><%= p.category %></td>
-        <td>$ <%= p.price %></td>
-        <td><a href="/admin/productos/<%= p.id %>/editar">Editar</a></td>
-      </tr>
-    <% }) %>
-  </table>
-<% } %>
+<style>
+    .admin-productos {
+        padding: 25px;
+        color: #49373a;
+    }
+
+    .admin-productos h1 {
+        color: #8d4655;
+        margin-bottom: 20px;
+    }
+
+    .tabla-productos {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    .tabla-productos th,
+    .tabla-productos td {
+        padding: 12px;
+        border: 1px solid #f0dfe1;
+        text-align: left;
+    }
+
+    .tabla-productos th {
+        background: #fff0f1;
+        color: #8d4655;
+    }
+
+    .tabla-productos img {
+        width: 85px;
+        height: 85px;
+        object-fit: contain;
+        object-position: center;
+        background: #fff8f6;
+        border-radius: 8px;
+        display: block;
+    }
+
+    .acciones-producto {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .btn-editar,
+    .btn-eliminar {
+        display: inline-block;
+        padding: 9px 13px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-editar {
+        background: #fbe5e8;
+        color: #8d4655;
+    }
+
+    .btn-eliminar {
+        background: #b94a48;
+        color: white;
+    }
+
+    .btn-editar:hover {
+        background: #f5d1d7;
+    }
+
+    .btn-eliminar:hover {
+        background: #963936;
+    }
+
+    .form-eliminar {
+        margin: 0;
+    }
+
+    @media (max-width: 650px) {
+        .admin-productos {
+            padding: 12px;
+            overflow-x: auto;
+        }
+
+        .tabla-productos {
+            min-width: 550px;
+        }
+    }
+</style>
+
+<main class="admin-productos">
+    <h1>Productos</h1>
+
+    <% if (!products.length) { %>
+        <p>Todavía no hay productos.</p>
+    <% } else { %>
+
+        <table class="tabla-productos">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% products.forEach(function (p) { %>
+                    <tr>
+                        <td>
+                            <img src="<%= p.image %>" alt="<%= p.name %>">
+                        </td>
+
+                        <td><%= p.name %></td>
+                        <td><%= p.category %></td>
+                        <td>$ <%= Number(p.price).toLocaleString('es-CO') %></td>
+
+                        <td>
+                            <div class="acciones-producto">
+                                <a
+                                    class="btn-editar"
+                                    href="/admin/productos/<%= p.id %>/editar">
+                                    Editar
+                                </a>
+
+                                <form
+                                    class="form-eliminar"
+                                    action="/admin/productos/<%= p.id %>/eliminar"
+                                    method="POST"
+                                    onsubmit="return confirm('¿Seguro que deseas eliminar este producto? Esta acción no se puede deshacer.');">
+
+                                    <button class="btn-eliminar" type="submit">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+    <% } %>
+</main>
 
 <%- include('../partials/footer') %>

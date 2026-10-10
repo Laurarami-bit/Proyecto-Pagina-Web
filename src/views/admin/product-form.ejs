@@ -1,64 +1,142 @@
-<%- include('../partials/header', { title }) %>
 
-<h1><%= title %></h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="admin-page">
 
-<form method="post" action="<%= action %>" enctype="multipart/form-data">
+    <main class="admin-container">
+        <header class="admin-header">
+            <div>
+                <p class="admin-subtitle">ANGELITOS CON AMOR</p>
+                <h1><%= title %></h1>
+                <p class="admin-description">Completa la información del producto.</p>
+            </div>
+            <a class="btn-volver" href="/admin/productos">Volver a productos</a>
+        </header>
 
-  <p>
-    <label>Nombre<br>
-      <input type="text" name="name" value="<%= product.name %>" required>
-    </label>
-  </p>
+        <form class="product-form" method="post" action="<%= action %>" enctype="multipart/form-data">
+<h1>PRUEBA DEL ADMINISTRADOR</h1>
+            <div class="form-section">
+                <h2>Información del producto</h2>
 
-  <p>
-    <label>Descripción<br>
-      <textarea name="description" rows="4" required><%= product.description %></textarea>
-    </label>
-  </p>
+                <div class="form-group">
+                    <label for="name">Nombre del producto</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="<%= product.name || '' %>"
+                        placeholder="Ej. Conjunto para bebé"
+                        required
+                    >
+                </div>
 
-  <p>
-    <label>Categoría<br>
-      <select name="category" required>
-        <option value="">Elige una categoría</option>
-        <% categories.forEach(function (c) { %>
-          <option value="<%= c %>" <%= product.category === c ? 'selected' : '' %>><%= c %></option>
-        <% }) %>
-      </select>
-    </label>
-  </p>
+                <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="4"
+                        placeholder="Describe las características del producto"
+                        required
+                    ><%= product.description || '' %></textarea>
+                </div>
 
-  <p>
-    <label>Precio<br>
-      <input type="number" name="price" min="1" value="<%= product.price %>" required>
-    </label>
-  </p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="category">Categoría</label>
+                        <select id="category" name="category" required>
+                            <option value="">Elige una categoría</option>
+                            <% categories.forEach(function (c) { %>
+                                <option value="<%= c %>" <%= product.category === c ? 'selected' : '' %>>
+                                    <%= c %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
 
-  <p>
-    <label>Color<br>
-      <select name="color">
-        <option value="">Sin color</option>
-        <% colors.forEach(function (c) { %>
-          <option value="<%= c %>" <%= product.color === c ? 'selected' : '' %>><%= c %></option>
-        <% }) %>
-      </select>
-    </label>
-  </p>
+                    <div class="form-group">
+                        <label for="gender">Dirigido a</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Elige una opción</option>
+                            <option value="niña" <%= product.gender === 'niña' ? 'selected' : '' %>>Niña</option>
+                            <option value="niño" <%= product.gender === 'niño' ? 'selected' : '' %>>Niño</option>
+                            <option value="unisex" <%= product.gender === 'unisex' ? 'selected' : '' %>>Unisex</option>
+                        </select>
+                    </div>
+                </div>
 
-  <p>
-    <label>Imagen<br>
-      <% if (product.image) { %>
-        <img src="<%= product.image %>" alt="Imagen actual"><br>
-      <% } %>
-      <input type="file" name="image" accept="image/*" <%= product.image ? '' : 'required' %>>
-    </label>
-  </p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="price">Precio (COP)</label>
+                        <input
+                            type="number"
+                            id="price"
+                            name="price"
+                            min="1"
+                            step="1"
+                            value="<%= product.price || '' %>"
+                            placeholder="Ej. 59900"
+                            required
+                        >
+                    </div>
 
-  <button type="submit">Guardar</button>
-  <a href="/admin/productos">Cancelar</a>
-  <a href="/admin/productos">Listar</a>
-  <a href="/admin/productos">Eliminar</a>
- 
+                    <div class="form-group">
+                        <label for="color">Color</label>
+                        <select id="color" name="color">
+                            <option value="">Sin color</option>
+                            <% colors.forEach(function (c) { %>
+                                <option value="<%= c %>" <%= product.color === c ? 'selected' : '' %>>
+                                    <%= c %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-</form>
+            <div class="form-section">
+                <h2>Imagen del producto</h2>
+                <p class="section-description">Selecciona una imagen clara del producto.</p>
 
-<%- include('../partials/footer') %>
+                <% if (product.image) { %>
+                    <div class="current-image">
+                        <img src="<%= product.image %>" alt="Imagen actual del producto">
+                        <span>Imagen actual</span>
+                    </div>
+                <% } %>
+
+                <div class="form-group">
+                    <label for="image">Seleccionar imagen</label>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                        <%= product.image ? '' : 'required' %>
+                    >
+                    <small>
+                        <% if (product.image) { %>
+                            Si no eliges otra imagen, se conservará la actual.
+                        <% } else { %>
+                            Debes seleccionar una imagen para guardar el producto.
+                        <% } %>
+                    </small>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a class="btn-cancelar" href="/admin/productos">Cancelar</a>
+                <button class="btn-guardar" type="submit">Guardar producto</button>
+            </div>
+
+        </form>
+    </main>
+
+</body>
+</html>

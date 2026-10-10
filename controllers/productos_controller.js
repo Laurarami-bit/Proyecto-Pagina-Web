@@ -1,21 +1,64 @@
+
 const fs = require('fs');
 const path = require('path');
 const { randomUUID } = require('crypto');
 
 const DATA_FILE = path.join(__dirname, '..', 'data', 'products.json');
-const CATEGORIES = ['Ropa para bebé', 'Coches y paseo', 'Juguetes', 'Accesorios'];
-const COLORS = ['Blanco', 'Beige', 'Rosa', 'Celeste', 'Amarillo', 'Verde', 'Gris', 'Azul', 'Rojo', 'Negro', 'Multicolor'];
+
+const CATEGORIES = [
+  'Ropa para bebé',
+  'Coches y paseo',
+  'Juguetes',
+  'Accesorios'
+];
+
+const COLORS = [
+  'Blanco', 'Beige', 'Rosa', 'Celeste', 'Amarillo',
+  'Verde', 'Gris', 'Azul', 'Rojo', 'Negro', 'Multicolor'
+];
+
+const GENDERS = ['niña', 'niño', 'unisex'];
 
 function readProducts() {
-  try {
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-  } catch {
+  if (!fs.existsSync(DATA_FILE)) {
     return [];
   }
+
+  const products = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+
+  if (!Array.isArray(products)) {
+    throw new Error('El archivo products.json no contiene una lista válida.');
+  }
+
+  return products;
 }
 
 function writeProducts(products) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
+}
+
+function validarProducto({ name, description, category, price, gender, color }) {
+  if (!name?.trim() || !description?.trim() || !category || !price || !gender) {
+    return 'Completa todos los campos obligatorios.';
+  }
+
+  if (!CATEGORIES.includes(category)) {
+    return 'La categoría seleccionada no es válida.';
+  }
+
+  if (!GENDERS.includes(gender)) {
+    return 'Selecciona niña, niño o unisex.';
+  }
+
+  if (!Number.isFinite(Number(price)) || Number(price) <= 0) {
+    return 'El precio debe ser mayor que cero.';
+  }
+
+  if (color && !COLORS.includes(color)) {
+    return 'El color seleccionado no es válido.';
+  }
+
+  return null;
 }
 
 exports.listarProductos = (req, res) => {
@@ -30,6 +73,7 @@ exports.mostrarFormularioNuevo = (req, res) => {
     name: '',
     description: '',
     category: '',
+    gender: '',
     price: '',
     color: '',
     image: ''
@@ -45,22 +89,31 @@ exports.mostrarFormularioNuevo = (req, res) => {
 };
 
 exports.crearProducto = (req, res) => {
-  const { name, description, category, price, color } = req.body;
+  const { name, description, category, price, color, gender } = req.body;
 
-  if (!name || !description || !category || !price) {
-    return res.status(400).send('Faltan datos. Vuelve atrás y completa el formulario.');
+  const error = validarProducto({
+    name, description, category, price, color, gender
+  });
+
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  if (!req.file) {
+    return res.status(400).send('Debes seleccionar una imagen para el producto.');
   }
 
   const products = readProducts();
 
   products.push({
     id: randomUUID(),
-    name,
-    description,
+    name: name.trim(),
+    description: description.trim(),
     category,
+    gender,
     price: Number(price),
-    color,
-    image: req.file ? '/uploads/' + req.file.filename : ''
+    color: color || '',
+    image: '/uploads/' + req.file.filename
   });
 
   writeProducts(products);
@@ -72,7 +125,7 @@ exports.mostrarFormularioEditar = (req, res) => {
   const product = readProducts().find((p) => p.id === req.params.id);
 
   if (!product) {
-    return res.status(404).send('Producto no encontrado');
+    return res.status(404).send('Producto no encontrado.');
   }
 
   res.render('admin/product-form', {
@@ -89,20 +142,25 @@ exports.actualizarProducto = (req, res) => {
   const product = products.find((p) => p.id === req.params.id);
 
   if (!product) {
-    return res.status(404).send('Producto no encontrado');
+    return res.status(404).send('Producto no encontrado.');
   }
 
-  const { name, description, category, price, color } = req.body;
+  const { name, description, category, price, color, gender } = req.body;
 
-  if (!name || !description || !category || !price) {
-    return res.status(400).send('Faltan datos. Vuelve atrás y completa el formulario.');
+  const error = validarProducto({
+    name, description, category, price, color, gender
+  });
+
+  if (error) {
+    return res.status(400).send(error);
   }
 
-  product.name = name;
-  product.description = description;
+  product.name = name.trim();
+  product.description = description.trim();
   product.category = category;
+  product.gender = gender;
   product.price = Number(price);
-  product.color = color;
+  product.color = color || '';
 
   if (req.file) {
     product.image = '/uploads/' + req.file.filename;
@@ -111,4 +169,30 @@ exports.actualizarProducto = (req, res) => {
   writeProducts(products);
 
   res.redirect('/admin/productos');
+};
+
+exports.eliminarProducto = (req, res) => {
+    const fs = require('fs');
+    const path = require('path');
+
+    const DATA_FILE = path.join(__dirname, '..', 'data', 'products.json');
+
+    const productos = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    const producto = productos.find(p => String(p.id) === String(req.params.id));
+
+    if (!producto) {
+        return res.redirect('/admin/productos');
+    }
+
+    const productosActualizados = productos.filter(
+        p => String(p.id) !== String(req.params.id)
+    );
+
+    fs.writeFileSync(
+        DATA_FILE,
+        JSON.stringify(productosActualizados, null, 2),
+        'utf8'
+    );
+
+    res.redirect('/admin/productos');
 };
