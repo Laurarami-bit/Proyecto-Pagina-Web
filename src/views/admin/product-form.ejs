@@ -14,13 +14,12 @@
             <div>
                 <p class="admin-subtitle">ANGELITOS CON AMOR</p>
                 <h1><%= title %></h1>
-                <p class="admin-description">Completa la información del producto.</p>
             </div>
             <a class="btn-volver" href="/admin/productos">Volver a productos</a>
         </header>
 
         <form class="product-form" method="post" action="<%= action %>" enctype="multipart/form-data">
-<h1>PRUEBA DEL ADMINISTRADOR</h1>
+
             <div class="form-section">
                 <h2>Información del producto</h2>
 
@@ -31,7 +30,7 @@
                         id="name"
                         name="name"
                         value="<%= product.name || '' %>"
-                        placeholder="Ej. Conjunto para bebé"
+                       
                         required
                     >
                 </div>
@@ -42,7 +41,7 @@
                         id="description"
                         name="description"
                         rows="4"
-                        placeholder="Describe las características del producto"
+                        
                         required
                     ><%= product.description || '' %></textarea>
                 </div>
@@ -81,7 +80,6 @@
                             min="1"
                             step="1"
                             value="<%= product.price || '' %>"
-                            placeholder="Ej. 59900"
                             required
                         >
                     </div>
@@ -89,7 +87,7 @@
                     <div class="form-group">
                         <label for="color">Color</label>
                         <select id="color" name="color">
-                            <option value="">Sin color</option>
+                            
                             <% colors.forEach(function (c) { %>
                                 <option value="<%= c %>" <%= product.color === c ? 'selected' : '' %>>
                                     <%= c %>
@@ -102,7 +100,7 @@
 
             <div class="form-section">
                 <h2>Imagen del producto</h2>
-                <p class="section-description">Selecciona una imagen clara del producto.</p>
+               
 
                 <% if (product.image) { %>
                     <div class="current-image">
@@ -112,7 +110,7 @@
                 <% } %>
 
                 <div class="form-group">
-                    <label for="image">Seleccionar imagen</label>
+                    
                     <input
                         type="file"
                         id="image"

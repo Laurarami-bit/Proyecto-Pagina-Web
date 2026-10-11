@@ -1563,5 +1563,15 @@
     "price": 78777,
     "color": "Beige",
     "image": "/uploads/1791663316152-8948301.png"
+  },
+  {
+    "id": "6abf234a-b46c-4f78-a8d7-723072a8fa3b",
+    "name": "YHTRHRT",
+    "description": "HTRHRTH",
+    "category": "Ropa para bebé",
+    "gender": "niña",
+    "price": 70000,
+    "color": "Multicolor",
+    "image": "/uploads/1791729208744-392181075.jpg"
   }
 ]
