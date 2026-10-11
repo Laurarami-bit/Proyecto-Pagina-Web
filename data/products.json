@@ -1536,15 +1536,6 @@
     "image": "/images/admin-placeholder.png"
   },
   {
-    "id": "a9cf951e-da18-4c36-8df5-27dc36e11198",
-    "name": "ivannnnnn",
-    "description": "asjkfhslafh",
-    "category": "Juguetes",
-    "price": 6,
-    "color": "Rojo",
-    "image": "/uploads/1791497464805.webp"
-  },
-  {
     "id": "84e089e3-6285-4c70-a94d-5ca7b8e33d1b",
     "name": "PELUCHITO",
     "description": "peluche grande",
@@ -1563,5 +1554,15 @@
     "price": 78777,
     "color": "Beige",
     "image": "/uploads/1791663316152-8948301.png"
+  },
+  {
+    "id": "ed27e4bc-294b-4b7b-971d-6f5a2f674f57",
+    "name": "uuuu",
+    "description": "ALDLJASFJLIf",
+    "category": "Coches y paseo",
+    "gender": "niño",
+    "price": 5,
+    "color": "Blanco",
+    "image": "/uploads/1791683413196-46346196.webp"
   }
 ]
