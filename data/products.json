@@ -1,21 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "Camisa Casual Niña",
-    "category": "camisas",
-    "gender": "niña",
-    "price": 45000,
-    "image": "/images/admin-placeholder.png"
-  },
-  {
-    "id": 2,
-    "name": "Camisa Floral Niña",
-    "category": "camisas",
-    "gender": "niña",
-    "price": 46000,
-    "image": "/images/admin-placeholder.png"
-  },
-  {
     "id": 3,
     "name": "Camisa con Volantes Niña",
     "category": "camisas",
@@ -1536,6 +1520,15 @@
     "image": "/images/admin-placeholder.png"
   },
   {
+    "id": "a9cf951e-da18-4c36-8df5-27dc36e11198",
+    "name": "ivannnnnn",
+    "description": "asjkfhslafh",
+    "category": "Juguetes",
+    "price": 6,
+    "color": "Rojo",
+    "image": "/uploads/1791497464805.webp"
+  },
+  {
     "id": "84e089e3-6285-4c70-a94d-5ca7b8e33d1b",
     "name": "PELUCHITO",
     "description": "peluche grande",
@@ -1556,13 +1549,23 @@
     "image": "/uploads/1791663316152-8948301.png"
   },
   {
-    "id": "ed27e4bc-294b-4b7b-971d-6f5a2f674f57",
-    "name": "uuuu",
-    "description": "ALDLJASFJLIf",
-    "category": "Coches y paseo",
-    "gender": "niño",
-    "price": 5,
-    "color": "Blanco",
-    "image": "/uploads/1791683413196-46346196.webp"
+    "id": "6abf234a-b46c-4f78-a8d7-723072a8fa3b",
+    "name": "YHTRHRT",
+    "description": "HTRHRTH",
+    "category": "Ropa para bebé",
+    "gender": "niña",
+    "price": 70000,
+    "color": "Multicolor",
+    "image": "/uploads/1791729208744-392181075.jpg"
+  },
+  {
+    "id": "f2be5364-9694-45a2-b695-7436dfbc8626",
+    "name": "Camisa Casual Niña",
+    "description": "camisa",
+    "category": "camisas",
+    "gender": "niña",
+    "price": 45,
+    "color": "Rosa",
+    "image": "/uploads/1791774202807-539493039.jpg"
   }
 ]

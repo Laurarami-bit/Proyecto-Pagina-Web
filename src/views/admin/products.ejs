@@ -1,9 +1,9 @@
-
 <%- include('../partials/header', { title }) %>
 
 <link rel="stylesheet" href="/css/style.css">
 
 <style>
+    /* Tus estilos se mantienen exactamente igual */
     .admin-productos {
         padding: 25px;
         color: #49373a;
@@ -95,13 +95,17 @@
     }
 </style>
 
+<% 
+    // Creamos un alias seguro que acepta tanto 'products' como 'productos'
+    const listaProductos = (typeof products !== 'undefined' ? products : (typeof productos !== 'undefined' ? productos : []));
+%>
+
 <main class="admin-productos">
     <h1>Productos</h1>
 
-    <% if (!products.length) { %>
+    <% if (listaProductos.length === 0) { %>
         <p>Todavía no hay productos.</p>
     <% } else { %>
-
         <table class="tabla-productos">
             <thead>
                 <tr>
@@ -114,30 +118,23 @@
             </thead>
 
             <tbody>
-                <% products.forEach(function (p) { %>
+                <% listaProductos.forEach(function (p) { %>
                     <tr>
                         <td>
-                            <img src="<%= p.image %>" alt="<%= p.name %>">
+                            <img src="<%= p.image || p.imagen %>" alt="<%= p.name || p.nombre %>">
                         </td>
 
-                        <td><%= p.name %></td>
-                        <td><%= p.category %></td>
-                        <td>$ <%= Number(p.price).toLocaleString('es-CO') %></td>
+                        <td><%= p.name || p.nombre %></td>
+                        <td><%= p.category || p.categoria %></td>
+                        <td>$ <%= Number(p.price || p.precio || 0).toLocaleString('es-CO') %></td>
 
                         <td>
                             <div class="acciones-producto">
-                                <a
-                                    class="btn-editar"
-                                    href="/admin/productos/<%= p.id %>/editar">
+                                <a class="btn-editar" href="/products/<%= p.id %>/edit">
                                     Editar
                                 </a>
 
-                                <form
-                                    class="form-eliminar"
-                                    action="/admin/productos/<%= p.id %>/eliminar"
-                                    method="POST"
-                                    onsubmit="return confirm('¿Seguro que deseas eliminar este producto? Esta acción no se puede deshacer.');">
-
+                                <form class="form-eliminar" action="/products/<%= p.id %>?_method=DELETE" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este producto? Esta acción no se puede deshacer.');">
                                     <button class="btn-eliminar" type="submit">
                                         Eliminar
                                     </button>
@@ -148,7 +145,6 @@
                 <% }) %>
             </tbody>
         </table>
-
     <% } %>
 </main>
 

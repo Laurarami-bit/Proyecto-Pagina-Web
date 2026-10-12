@@ -1,69 +1,190 @@
 const fs = require('fs');
-const path = require('path');
-const bcrypt = require('bcryptjs');
+const path = path = require('path');
 const { randomUUID } = require('crypto');
 
-const USERS_FILE = path.join(__dirname, '..', '..', 'data', 'users.json');
-console.log('Ruta del archivo:', USERS_FILE);
+const DATA_FILE = path.join(__dirname, '..', 'data', 'products.json');
 
-function readUsers() {
-    try {
-        return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
-    } catch {
-        return [];
-    }
+const CATEGORIES = [
+  'Ropa para bebé',
+  'Coches y paseo',
+  'Juguetes',
+  'Accesorios'
+];
+
+const COLORS = [
+  'Blanco', 'Beige', 'Rosa', 'Celeste', 'Amarillo',
+  'Verde', 'Gris', 'Azul', 'Rojo', 'Negro', 'Multicolor'
+];
+
+const GENDERS = ['niña', 'niño', 'unisex'];
+
+function readProducts() {
+  if (!fs.existsSync(DATA_FILE)) {
+    return [];
+  }
+
+  const products = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+
+  if (!Array.isArray(products)) {
+    throw new Error('El archivo products.json no contiene una lista válida.');
+  }
+
+  return products;
 }
 
-function writeUsers(users) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+function writeProducts(products) {
+  fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
 }
 
-exports.mostrarLogin = (req, res) => {
-    res.render('users/login');
+function validarProducto({ name, description, category, price, gender, color }) {
+  if (!name?.trim() || !description?.trim() || !category || !price || !gender) {
+    return 'Completa todos los campos obligatorios.';
+  }
+
+  if (!CATEGORIES.includes(category)) {
+    return 'La categoría seleccionada no es válida.';
+  }
+
+  if (!GENDERS.includes(gender)) {
+    return 'Selecciona niña, niño o unisex.';
+  }
+
+  if (!Number.isFinite(Number(price)) || Number(price) <= 0) {
+    return 'El precio debe ser mayor que cero.';
+  }
+
+  if (color && !COLORS.includes(color)) {
+    return 'El color seleccionado no es válido.';
+  }
+
+  return null;
+}
+
+exports.listarProductos = (req, res) => {
+  res.render('admin/products', {
+    title: 'Productos',
+    products: readProducts()
+  });
 };
 
-exports.procesarLogin = async (req, res) => {
-    const { usuario, clave } = req.body;
-    const users = readUsers();
-    const encontrado = users.find(u => u.usuario === usuario);
+exports.mostrarFormularioNuevo = (req, res) => {
+  const product = {
+    name: '',
+    description: '',
+    category: '',
+    gender: '',
+    price: '',
+    color: '',
+    image: ''
+  };
 
-    if (!encontrado) {
-        return res.send('Usuario o contraseña incorrectos');
-    }
-
-    const correcta = await bcrypt.compare(clave, encontrado.contrasena);
-
-    if (correcta) {
-        return res.redirect('/home');
-    }
-
-    res.send('Usuario o contraseña incorrectos');
+  res.render('admin/product-form', {
+    title: 'Nuevo producto',
+    product,
+    categories: CATEGORIES,
+    colors: COLORS,
+    action: '/products'
+  });
 };
 
-exports.mostrarRegistro = (req, res) => {
-    res.render('users/registro');
+exports.crearProducto = (req, res) => {
+  const { name, description, category, price, color, gender } = req.body;
+
+  const error = validarProducto({
+    name, description, category, price, color, gender
+  });
+
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  if (!req.file) {
+    return res.status(400).send('Debes seleccionar una imagen para el producto.');
+  }
+
+  const products = readProducts();
+
+  products.push({
+    id: randomUUID(),
+    name: name.trim(),
+    description: description.trim(),
+    category,
+    gender,
+    price: Number(price),
+    color: color || '',
+    image: '/uploads/' + req.file.filename
+  });
+
+  writeProducts(products);
+
+  res.redirect('/products');
 };
 
-exports.procesarRegistro = async (req, res) => {
-    const { firstName, lastName, email, password, category, contrasenacon } = req.body;
+exports.mostrarFormularioEditar = (req, res) => {
+  // Corregido: usa String() para asegurar que encuentre el producto correctamente
+  const product = readProducts().find((p) => String(p.id) === String(req.params.id));
 
-    if (password !== contrasenacon) {
-        return res.send('Las contraseñas no coinciden');
+  if (!product) {
+    return res.status(404).send('Producto no encontrado.');
+  }
+
+  res.render('admin/product-form', {
+    title: 'Editar producto',
+    product,
+    categories: CATEGORIES,
+    colors: COLORS,
+    action: '/products/' + product.id + '?_method=PUT'
+  });
+};
+
+exports.actualizarProducto = (req, res) => {
+  const products = readProducts();
+  // Corregido: usa String() para encontrar el producto en la actualización
+  const product = products.find((p) => String(p.id) === String(req.params.id));
+
+  if (!product) {
+    return res.status(404).send('Producto no encontrado.');
+  }
+
+  const { name, description, category, price, color, gender } = req.body;
+
+  const error = validarProducto({
+    name, description, category, price, color, gender
+  });
+
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  product.name = name.trim();
+  product.description = description.trim();
+  product.category = category;
+  product.gender = gender;
+  product.price = Number(price);
+  product.color = color || '';
+
+  if (req.file) {
+    product.image = '/uploads/' + req.file.filename;
+  }
+
+  writeProducts(products);
+
+  res.redirect('/products');
+};
+
+exports.eliminarProducto = (req, res) => {
+    const productos = readProducts();
+    const producto = productos.find(p => String(p.id) === String(req.params.id));
+
+    if (!producto) {
+        return res.redirect('/products');
     }
 
-    const users = readUsers();
+    const productosActualizados = productos.filter(
+        p => String(p.id) !== String(req.params.id)
+    );
 
-    const nuevoUsuario = {
-        id: randomUUID(),
-        firstName,
-        lastName,
-        category,
-        email,
-        password: await bcrypt.hash(password, 100)
-    };
+    writeProducts(productosActualizados);
 
-    users.push(nuevoUsuario);
-    writeUsers(users);
-
-    res.redirect('/login');
+    res.redirect('/products');
 };

@@ -1,13 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Categoría: <%= categoria %> · Angelitos con amor</title>
-
-```
 <style>
     body {
         background-color: #f9f6f0;
@@ -191,6 +187,25 @@
         font-size: 14px;
     }
 
+    .btn-detalle {
+        display: block;
+        text-align: center;
+        background: #f0f0f0;
+        color: #555;
+        text-decoration: none;
+        padding: 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 8px;
+        transition: background 0.2s;
+    }
+
+    .btn-detalle:hover {
+        background: #e0e0e0;
+        color: #333;
+    }
+
     .btn-carrito {
         background: #ff708e;
         color: white;
@@ -219,79 +234,40 @@
         font-size: 16px;
     }
 </style>
-```
-
 </head>
-
 <body>
-
-```
 <div class="tienda-container">
-
     <div class="header-tienda">
         <h2>Angelitos con amor</h2>
         <hr>
     </div>
 
     <div class="navegacion-superior">
-
-        <h1>
-            Categoría: <%= categoria.toUpperCase() %>
-        </h1>
-
+        <h1>Categoría: <%= categoria.toUpperCase() %></h1>
         <div class="enlaces-nav">
             <a href="/home">← Volver al Home</a>
             <a href="/carrito">Ver Carrito 🛒</a>
         </div>
-
     </div>
 
     <div class="filtros-genero">
-
         <strong>Filtrar por género:</strong>
-
-        <a href="/shop/categoria/<%= categoria %>" class="btn-filtro">
-            Todos
-        </a>
-
-        <a href="/shop/categoria/<%= categoria %>?genero=niña" class="btn-filtro nina">
-            Niña 👧
-        </a>
-
-        <a href="/shop/categoria/<%= categoria %>?genero=niño" class="btn-filtro nino">
-            Niño 👦
-        </a>
-
+        <a href="/shop/categoria/<%= categoria %>" class="btn-filtro">Todos</a>
+        <a href="/shop/categoria/<%= categoria %>?genero=niña" class="btn-filtro nina">Niña 👧</a>
+        <a href="/shop/categoria/<%= categoria %>?genero=niño" class="btn-filtro nino">Niño 👦</a>
     </div>
 
-
     <% if (!generoActual) { %>
-
         <div class="mensaje-vacio">
-
-            👉 Por favor, selecciona un filtro de género
-            (<strong>Niña</strong> o <strong>Niño</strong>)
-            o haz clic en <strong>Todos</strong> para ver los productos disponibles.
-
+            👉 Por favor, selecciona un filtro de género (<strong>Niña</strong> o <strong>Niño</strong>) o haz clic en <strong>Todos</strong> para ver los productos disponibles.
         </div>
-
-
     <% } else if (!productos || productos.length === 0) { %>
-
         <div class="mensaje-vacio">
-
             No se encontraron productos para esta selección.
-
         </div>
-
-
     <% } else { %>
-
-
         <div class="grid-productos">
-
             <% productos.forEach(function (p) { %>
-
                 <%
                     let nombreLimpio = p.name
                         .replace(/niña/gi, '')
@@ -317,81 +293,43 @@
                     ].includes(catLower);
                 %>
 
-
                 <div class="card-producto">
-
                     <div>
-
-                        <!-- Al hacer clic en imagen o nombre abre el detalle -->
-
-                        <a
-                            href="/detalleproducto/<%= p.id %>"
-                            class="producto-enlace"
-                        >
-
-                            <img
-                                src="<%= p.image %>"
-                                alt="<%= nombreLimpio %>"
-                            >
-
-                            <h3>
-                                <%= nombreLimpio %>
-                            </h3>
-
+                        <a href="/detalleproducto/<%= p.id %>" class="producto-enlace">
+                            <img src="<%= p.image %>" alt="<%= nombreLimpio %>">
+                            <h3><%= nombreLimpio %></h3>
                         </a>
 
-
                         <div class="precio-producto">
-
                             $ <%= Number(p.price).toLocaleString('es-CO') %>
-
                         </div>
-
                     </div>
 
-
                     <div>
-
-
                         <% if (esRopa) { %>
-
-                            <label for="talla-<%= p.id %>">
-                                Selecciona Talla:
-                            </label>
-
+                            <label for="talla-<%= p.id %>">Selecciona Talla:</label>
                             <select id="talla-<%= p.id %>">
-
                                 <option value="NB">NB</option>
                                 <option value="0-3M">0-3M</option>
                                 <option value="3-6M">3-6M</option>
                                 <option value="6-12M">6-12M</option>
                                 <option value="12-18M">12-18M</option>
                                 <option value="18-24M">18-24M</option>
-
                             </select>
-
-
                         <% } else if (esZapatos) { %>
-
-
-                            <label for="talla-<%= p.id %>">
-                                Talla (EU):
-                            </label>
-
+                            <label for="talla-<%= p.id %>">Talla (EU):</label>
                             <select id="talla-<%= p.id %>">
-
                                 <option value="15 - 16">15 - 16</option>
                                 <option value="16 - 17">16 - 17</option>
                                 <option value="17 - 18">17 - 18</option>
                                 <option value="18 - 19">18 - 19</option>
                                 <option value="19 - 20">19 - 20</option>
                                 <option value="20 - 21">20 - 21</option>
-
                             </select>
-
-
                         <% } %>
 
+                        <!-- Botón de Ver Detalle añadido antes del botón de carrito -->
+                        <a href="/detalleproducto/<%= p.id %>" class="btn-detalle">Ver detalle</a>
 
                         <button
                             class="btn-carrito"
@@ -399,58 +337,30 @@
                         >
                             Añadir al carrito
                         </button>
-
                     </div>
-
                 </div>
-
             <% }) %>
-
         </div>
-
-
     <% } %>
-
 </div>
 
-
 <script>
-
     function agregarAlCarrito(id, nombre, precio, imagen) {
-
         precio = Number(precio);
+        const selectTalla = document.getElementById(`talla-${id}`);
+        const tallaSeleccionada = selectTalla ? selectTalla.value : 'Única';
 
-        const selectTalla =
-            document.getElementById(`talla-${id}`);
-
-        const tallaSeleccionada =
-            selectTalla ? selectTalla.value : 'Única';
-
-
-        let carrito =
-            JSON.parse(localStorage.getItem('carrito')) || [];
-
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
         carrito.push({
-
             id: id,
-
             name: nombre,
-
             price: precio,
-
             image: imagen,
-
             talla: tallaSeleccionada
-
         });
 
-
-        localStorage.setItem(
-            'carrito',
-            JSON.stringify(carrito)
-        );
-
+        localStorage.setItem('carrito', JSON.stringify(carrito));
 
         alert(
             `¡${nombre} ${
@@ -459,12 +369,7 @@
                     : ''
             } se añadió al carrito con éxito!`
         );
-
     }
-
 </script>
-```
-
 </body>
-
 </html>
