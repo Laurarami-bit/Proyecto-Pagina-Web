@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const path = require('path');
 const { randomUUID } = require('crypto');
@@ -6,10 +5,15 @@ const { randomUUID } = require('crypto');
 const DATA_FILE = path.join(__dirname, '..', 'data', 'products.json');
 
 const CATEGORIES = [
-  'Ropa para bebé',
-  'Coches y paseo',
-  'Juguetes',
-  'Accesorios'
+  'juguetes',
+  'camisas',
+  'aseo',
+  'pantalones',
+  'vestidos',
+  'conjuntos',
+  'zapatos',
+  'pijamas',
+  'abrigos'
 ];
 
 const COLORS = [
@@ -84,7 +88,7 @@ exports.mostrarFormularioNuevo = (req, res) => {
     product,
     categories: CATEGORIES,
     colors: COLORS,
-    action: '/admin/productos'
+    action: '/products' // <-- CORREGIDO: Apunta a la ruta nueva
   });
 };
 
@@ -118,11 +122,11 @@ exports.crearProducto = (req, res) => {
 
   writeProducts(products);
 
-  res.redirect('/admin/productos');
+  res.redirect('/products'); // <-- CORREGIDO: Redirige al listado correcto
 };
 
 exports.mostrarFormularioEditar = (req, res) => {
-  const product = readProducts().find((p) => p.id === req.params.id);
+  const product = readProducts().find((p) => String(p.id).trim() === String(req.params.id).trim());
 
   if (!product) {
     return res.status(404).send('Producto no encontrado.');
@@ -133,13 +137,13 @@ exports.mostrarFormularioEditar = (req, res) => {
     product,
     categories: CATEGORIES,
     colors: COLORS,
-    action: '/admin/productos/' + product.id + '/editar'
+    action: '/products/' + product.id + '?_method=PUT' // <-- CORREGIDO: Apunta a PUT con method-override
   });
 };
 
 exports.actualizarProducto = (req, res) => {
   const products = readProducts();
-  const product = products.find((p) => p.id === req.params.id);
+  const product = products.find((p) => String(p.id).trim() === String(req.params.id).trim());
 
   if (!product) {
     return res.status(404).send('Producto no encontrado.');
@@ -168,31 +172,22 @@ exports.actualizarProducto = (req, res) => {
 
   writeProducts(products);
 
-  res.redirect('/admin/productos');
+  res.redirect('/products'); // <-- CORREGIDO
 };
 
 exports.eliminarProducto = (req, res) => {
-    const fs = require('fs');
-    const path = require('path');
+    const products = readProducts();
+    const product = products.find(p => String(p.id).trim() === String(req.params.id).trim());
 
-    const DATA_FILE = path.join(__dirname, '..', 'data', 'products.json');
-
-    const productos = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-    const producto = productos.find(p => String(p.id) === String(req.params.id));
-
-    if (!producto) {
-        return res.redirect('/admin/productos');
+    if (!product) {
+        return res.redirect('/products');
     }
 
-    const productosActualizados = productos.filter(
-        p => String(p.id) !== String(req.params.id)
+    const productosActualizados = products.filter(
+        p => String(p.id).trim() !== String(req.params.id).trim()
     );
 
-    fs.writeFileSync(
-        DATA_FILE,
-        JSON.stringify(productosActualizados, null, 2),
-        'utf8'
-    );
+    writeProducts(productosActualizados);
 
-    res.redirect('/admin/productos');
+    res.redirect('/products'); // <-- CORREGIDO
 };

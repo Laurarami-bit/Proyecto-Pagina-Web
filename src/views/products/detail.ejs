@@ -3,28 +3,326 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= product.name %> · Angelitos con amor</title>
-  <link rel="stylesheet" href="/css/admin.css">
+  <% 
+    const item = typeof producto !== 'undefined' ? producto : (typeof product !== 'undefined' ? product : null);
+    
+    let nombreLimpio = item ? (item.name || item.nombre || 'Detalle del producto') : 'Detalle del producto';
+    const imagenUrl = item ? (item.image || item.imagen || '/images/default-product.png') : '';
+    const categoria = item ? (item.category || item.categoria || 'General') : '';
+    const catLower = categoria.toLowerCase();
+
+    const esRopa = ['ropa', 'camisas', 'pantalones', 'vestidos', 'conjuntos', 'pijamas', 'abrigos'].includes(catLower);
+    const esZapatos = ['zapatos', 'zapatitos', 'calzado'].includes(catLower);
+
+    // Diccionario de descripciones personalizadas por ID/Nombre
+    const descripcionesPorDefecto = {
+      "sonajero": "Sonajero estimulante con sonidos suaves, bordes texturizados y materiales 100% seguros libres de BPA. Ideal para la dentición y el desarrollo motriz de tu bebé.",
+      "pijama": "Pijama ultrasuave de algodón orgánico respirable con broches térmicos. Mantiene la temperatura corporal perfecta para que el bebé duerma plácidamente toda la noche.",
+      "zapato": "Calzado ergonómico de suela flexible y antideslizante que promueve el desarrollo libre del pie. Acabados acolchados que evitan rozaduras.",
+      "vestido": "Vestido delicado confeccionado en tejidos suaves con forro interno antialérgico y finos detalles bordados a mano. Ideal para ocasiones especiales.",
+      "conjunto": "Set multielemento elaborado en algodón peruano de máxima durabilidad. Incluye prendas combinables fáciles de poner y quitar para el día a día.",
+      "cobija": "Cobija de microfibra ultrasuave al tacto, hipoalergénica y térmica. Acompaña las siestas del bebé con máxima ligereza y confort."
+    };
+
+    let descripcionFinal = item ? (item.description || item.descripcion || '') : '';
+
+    if (!descripcionFinal || descripcionFinal.trim() === '') {
+      const claveEncontrada = Object.keys(descripcionesPorDefecto).find(key => 
+        nombreLimpio.toLowerCase().includes(key) || catLower.includes(key)
+      );
+
+      if (claveEncontrada) {
+        descripcionFinal = descripcionesPorDefecto[claveEncontrada];
+      } else {
+        descripcionFinal = `Edición especial de ${nombreLimpio}. Diseñado meticulosamente con altos estándares de calidad, tejidos resistentes y un acabado suave pensado para brindar la mejor experiencia.`;
+      }
+    }
+  %>
+  <title><%= nombreLimpio %> · Angelitos con amor</title>
+
+  <style>
+    body {
+      background-color: #f9f6f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #444;
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    .detalle-container {
+      max-width: 950px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 35px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-detalle {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header-detalle h2 {
+      color: #d46a84;
+      font-size: 26px;
+      margin: 0 0 5px 0;
+    }
+
+    .header-detalle hr {
+      border: none;
+      height: 2px;
+      background: #fce4ec;
+      width: 140px;
+      margin: 10px auto;
+    }
+
+    .grid-detalle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: start;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-detalle {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .galeria-producto img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background: #fafafa;
+    }
+
+    .info-producto h1 {
+      font-size: 26px;
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .badge-categoria {
+      display: inline-block;
+      background: #ffe4e8;
+      color: #c23858;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: capitalize;
+      margin-bottom: 15px;
+    }
+
+    .precio-destacado {
+      font-size: 28px;
+      color: #2e7d32;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .campo-detalle {
+      margin-bottom: 15px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .campo-detalle strong {
+      color: #555;
+    }
+
+    .selector-talla {
+      margin: 20px 0;
+    }
+
+    .selector-talla label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #555;
+    }
+
+    .selector-talla select {
+      width: 100%;
+      max-width: 280px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fafafa;
+    }
+
+    .acciones-detalle {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .btn-carrito {
+      background: #ff708e;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      width: 100%;
+      max-width: 280px;
+      cursor: pointer;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 15px;
+      transition: background 0.2s;
+      box-shadow: 0 4px 12px rgba(255, 112, 142, 0.3);
+      text-align: center;
+    }
+
+    .btn-carrito:hover {
+      background: #ff5277;
+    }
+
+    .btn-volver {
+      display: inline-block;
+      color: #d46a84;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .btn-volver:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h2>Angelitos con amor</h2>
-  <hr>
 
-  <h1><%= product.name %></h1>
+<div class="detalle-container">
 
-  <% if (product.image) { %>
-    <p><img src="<%= product.image %>" alt="<%= product.name %>" style="max-width: 300px"></p>
+  <div class="header-detalle">
+    <h2>Angelitos con amor</h2>
+    <hr>
+  </div>
+
+  <% if (!item) { %>
+    <p style="text-align: center;">No se encontró información para este producto.</p>
+    <div style="text-align: center;">
+      <a href="javascript:history.back()" class="btn-volver">← Volver a la lista</a>
+    </div>
+  <% } else { %>
+
+    <div class="grid-detalle">
+
+      <div class="galeria-producto">
+        <img src="<%= imagenUrl %>" alt="<%= nombreLimpio %>" onerror="this.src='https://via.placeholder.com/400x400?text=Sin+Imagen'">
+      </div>
+
+      <div class="info-producto">
+        
+        <span class="badge-categoria">Categoría: <%= categoria %></span>
+
+        <h1><%= nombreLimpio %></h1>
+
+        <div class="precio-destacado">
+          $ <%= Number(item.price || item.precio || 0).toLocaleString('es-CO') %>
+        </div>
+
+        <% if (esRopa) { %>
+          <div class="selector-talla">
+            <label for="talla-detalle">Selecciona Talla:</label>
+            <select id="talla-detalle">
+              <option value="NB">NB</option>
+              <option value="0-3M">0-3M</option>
+              <option value="3-6M">3-6M</option>
+              <option value="6-12M">6-12M</option>
+              <option value="12-18M">12-18M</option>
+              <option value="18-24M">18-24M</option>
+            </select>
+          </div>
+        <% } else if (esZapatos) { %>
+          <div class="selector-talla">
+            <label for="talla-detalle">Talla (EU):</label>
+            <select id="talla-detalle">
+              <option value="15 - 16">15 - 16</option>
+              <option value="16 - 17">16 - 17</option>
+              <option value="17 - 18">17 - 18</option>
+              <option value="18 - 19">18 - 19</option>
+              <option value="19 - 20">19 - 20</option>
+              <option value="20 - 21">20 - 21</option>
+            </select>
+          </div>
+        <% } %>
+
+        <% if (item.gender || item.genero) { %>
+          <div class="campo-detalle">
+            <strong>Género:</strong> <%= (item.gender || item.genero) %>
+          </div>
+        <% } %>
+
+        <% if (item.color) { %>
+          <div class="campo-detalle">
+            <strong>Color:</strong> <%= item.color %>
+          </div>
+        <% } %>
+
+        <div class="campo-detalle">
+          <strong>Descripción:</strong>
+          <p style="margin-top: 6px; color: #666; line-height: 1.6;">
+            <%= descripcionFinal %>
+          </p>
+        </div>
+
+        <div class="acciones-detalle">
+          <button 
+            class="btn-carrito" 
+            onclick="agregarAlCarrito('<%= item.id %>', '<%= nombreLimpio %>', '<%= item.price || item.precio || 0 %>', '<%= imagenUrl %>')"
+          >
+            Añadir al carrito 🛒
+          </button>
+
+          <div>
+            <a href="javascript:history.back()" class="btn-volver">← Volver al listado</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
   <% } %>
 
-  <p><strong>Categoría:</strong> <%= product.category %></p>
-  <p><strong>Precio:</strong> $ <%= Number(product.price).toLocaleString('es-AR') %></p>
-  <% if (product.color) { %>
-    <p><strong>Color:</strong> <%= product.color %></p>
-  <% } %>
+</div>
 
-  <p><strong>Descripción</strong></p>
-  <p><%= product.description %></p>
+<script>
+  function agregarAlCarrito(id, nombre, precio, imagen) {
+    precio = Number(precio);
+    const selectTalla = document.getElementById('talla-detalle');
+    const tallaSeleccionada = selectTalla ? selectTalla.value : 'Única';
 
-  <p><a href="/productos">Volver al listado</a></p>
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    carrito.push({
+      id: id,
+      name: nombre,
+      price: precio,
+      image: imagen,
+      talla: tallaSeleccionada
+    });
+
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+    alert(
+      `¡${nombre} ${
+        tallaSeleccionada !== 'Única'
+          ? '(Talla: ' + tallaSeleccionada + ')'
+          : ''
+      } se añadió al carrito con éxito!`
+    );
+  }
+</script>
+
 </body>
 </html>

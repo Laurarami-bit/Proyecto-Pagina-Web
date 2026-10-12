@@ -47,7 +47,8 @@ exports.mostrarDetalleProducto = (req, res) => {
         return res.status(404).send('Producto no encontrado');
     }
 
-    res.render('shop/detalleproducto', { producto });
+    // Apunta correctamente a la ruta de tu vista en views/products/detail.ejs
+    res.render('products/detail', { producto });
 };
 
 exports.mostrarContacto = (req, res) => {

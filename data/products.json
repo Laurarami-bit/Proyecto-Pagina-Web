@@ -1,21 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "Camisa Casual Niña",
-    "category": "camisas",
-    "gender": "niña",
-    "price": 45000,
-    "image": "/images/admin-placeholder.png"
-  },
-  {
-    "id": 2,
-    "name": "Camisa Floral Niña",
-    "category": "camisas",
-    "gender": "niña",
-    "price": 46000,
-    "image": "/images/admin-placeholder.png"
-  },
-  {
     "id": 3,
     "name": "Camisa con Volantes Niña",
     "category": "camisas",
@@ -1573,5 +1557,15 @@
     "price": 70000,
     "color": "Multicolor",
     "image": "/uploads/1791729208744-392181075.jpg"
+  },
+  {
+    "id": "f2be5364-9694-45a2-b695-7436dfbc8626",
+    "name": "Camisa Casual Niña",
+    "description": "camisa",
+    "category": "camisas",
+    "gender": "niña",
+    "price": 45,
+    "color": "Rosa",
+    "image": "/uploads/1791774202807-539493039.jpg"
   }
 ]

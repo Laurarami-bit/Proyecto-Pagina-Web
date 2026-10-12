@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,7 +14,10 @@
                 <p class="admin-subtitle">ANGELITOS CON AMOR</p>
                 <h1><%= title %></h1>
             </div>
-            <a class="btn-volver" href="/admin/productos">Volver a productos</a>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <!-- Usamos la clase btn-editar para que tenga forma de botón estilizado -->
+                <a class="btn-editar" href="/products" style="text-decoration: none;">Ver lista de productos</a>
+            </div>
         </header>
 
         <form class="product-form" method="post" action="<%= action %>" enctype="multipart/form-data">
@@ -30,7 +32,6 @@
                         id="name"
                         name="name"
                         value="<%= product.name || '' %>"
-                       
                         required
                     >
                 </div>
@@ -41,7 +42,6 @@
                         id="description"
                         name="description"
                         rows="4"
-                        
                         required
                     ><%= product.description || '' %></textarea>
                 </div>
@@ -87,7 +87,6 @@
                     <div class="form-group">
                         <label for="color">Color</label>
                         <select id="color" name="color">
-                            
                             <% colors.forEach(function (c) { %>
                                 <option value="<%= c %>" <%= product.color === c ? 'selected' : '' %>>
                                     <%= c %>
@@ -100,7 +99,6 @@
 
             <div class="form-section">
                 <h2>Imagen del producto</h2>
-               
 
                 <% if (product.image) { %>
                     <div class="current-image">
@@ -110,7 +108,6 @@
                 <% } %>
 
                 <div class="form-group">
-                    
                     <input
                         type="file"
                         id="image"
@@ -129,7 +126,7 @@
             </div>
 
             <div class="form-actions">
-                <a class="btn-cancelar" href="/admin/productos">Cancelar</a>
+                <a class="btn-cancelar" href="/products">Cancelar</a>
                 <button class="btn-guardar" type="submit">Guardar producto</button>
             </div>
 

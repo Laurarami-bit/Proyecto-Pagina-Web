@@ -1,8 +1,8 @@
-
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const methodOverride = require('method-override'); // 1. Requerir method-override
 
 const app = express();
 const shopController = require('./controllers/shop_controller');
@@ -17,6 +17,7 @@ app.set('views', path.join(__dirname, 'src/views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method')); // 2. Configurar method-override para PUT y DELETE
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -50,13 +51,14 @@ app.post('/usuarios/registro', (req, res) => {
     res.redirect('/login');
 });
 
-// Administrador
-app.get('/admin/productos', productsController.listarProductos);
-app.get('/admin/productos/nuevo', productsController.mostrarFormularioNuevo);
-app.post('/admin/productos', upload.single('image'), productsController.crearProducto);
-app.get('/admin/productos/:id/editar', productsController.mostrarFormularioEditar);
-app.post('/admin/productos/:id/editar', upload.single('image'), productsController.actualizarProducto);
-app.post('/admin/productos/:id/eliminar', productsController.eliminarProducto);
+// Administrador / CRUD de Productos (Sprint 4)
+app.get('/products', productsController.listarProductos);                           // 1. /products (GET) - Listado
+app.get('/products/create', productsController.mostrarFormularioNuevo);             // 2. /products/create (GET) - Formulario de creación
+app.get('/products/:id', shopController.mostrarDetalleProducto);                    // 3. /products/:id (GET) - Detalle de un producto
+app.post('/products', upload.single('image'), productsController.crearProducto);    // 4. /products (POST) - Acción de creación
+app.get('/products/:id/edit', productsController.mostrarFormularioEditar);          // 5. /products/:id/edit (GET) - Formulario de edición
+app.put('/products/:id', upload.single('image'), productsController.actualizarProducto); // 6. /products/:id (PUT) - Acción de edición
+app.delete('/products/:id', productsController.eliminarProducto);                   // 7. /products/:id (DELETE) - Acción de borrado
 
 // Errores
 app.use((err, req, res, next) => {
@@ -69,4 +71,3 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3200;
 app.listen(PORT, () => console.log(`Servidor ejecutándose en http://localhost:${PORT}`));
-
