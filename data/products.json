@@ -1,19 +1,13 @@
 [
   {
-    "id": 3,
-    "name": "Camisa con Volantes Niña",
-    "category": "camisas",
-    "gender": "niña",
-    "price": 42000,
-    "image": "/images/admin-placeholder.png"
-  },
-  {
     "id": 4,
     "name": "Blusa Estampada Niña",
     "category": "camisas",
     "gender": "niña",
     "price": 39000,
-    "image": "/images/admin-placeholder.png"
+    "image": "/images/admin-placeholder.png",
+    "description": "kihjhlkhlk",
+    "color": "Blanco"
   },
   {
     "id": 5,

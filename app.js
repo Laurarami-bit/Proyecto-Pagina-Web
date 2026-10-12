@@ -7,6 +7,7 @@ const methodOverride = require('method-override'); // 1. Requerir method-overrid
 const app = express();
 const shopController = require('./controllers/shop_controller');
 const productsController = require('./controllers/productos_controller');
+const usersController = require('./controllers/user_controller');
 
 const UPLOADS_DIR = path.join(__dirname, 'public', 'uploads');
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
@@ -39,17 +40,12 @@ app.get('/nosotros', shopController.mostrarNosotros);
 app.get('/contacto', shopController.mostrarContacto);
 app.get('/carrito', shopController.mostrarCarrito);
 app.get('/detalleproducto/:id', shopController.mostrarDetalleProducto);
-
-// Usuarios
-app.get(['/login', '/register', '/registro'], (req, res) => res.render('users/' + (req.path === '/login' ? 'login' : 'registro')));
-app.post('/usuarios/login', (req, res) => {
-    console.log('Datos de inicio de sesión:', req.body);
-    res.redirect('/home');
-});
-app.post('/usuarios/registro', (req, res) => {
-    console.log('Datos de registro:', req.body);
-    res.redirect('/login');
-});
+// usuarios
+app.get('/login', usersController.mostrarLogin);
+app.get('/register', usersController.mostrarRegistro);
+app.get('/registro', usersController.mostrarRegistro);
+app.post('/usuarios/login', usersController.procesarLogin);
+app.post('/usuarios/registro', usersController.procesarRegistro);
 
 // Administrador / CRUD de Productos (Sprint 4)
 app.get('/products', productsController.listarProductos);                           // 1. /products (GET) - Listado
