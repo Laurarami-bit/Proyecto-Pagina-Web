@@ -28,9 +28,12 @@ function normalizar(texto) {
         .replace(/\s+/g, ' ');
 }
 
+
 exports.mostrarHome = (req, res) => {
-    res.render('shop/home');
+    const productos = leerProductos();
+    res.render('shop/home', { productos });
 };
+
 
 exports.mostrarCarrito = (req, res) => {
     res.render('shop/carrito');

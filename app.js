@@ -2,65 +2,63 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const methodOverride = require('method-override'); // 1. Requerir method-override
+const methodOverride = require('method-override');
 
 const app = express();
-const shopController = require('./controllers/shop_controller');
-const productsController = require('./controllers/productos_controller');
-const usersController = require('./controllers/user_controller');
+const shop = require('./controllers/shop_controller');
+const products = require('./controllers/productos_controller');
+const users = require('./controllers/user_controller');
 
-const UPLOADS_DIR = path.join(__dirname, 'public', 'uploads');
-fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+const PUBLIC = path.join(__dirname, 'public');
+const UPLOADS = path.join(PUBLIC, 'uploads');
+
+fs.mkdirSync(UPLOADS, { recursive: true });
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
-
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(PUBLIC));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method')); // 2. Configurar method-override para PUT y DELETE
+app.use(methodOverride('_method'));
 
 const upload = multer({
     storage: multer.diskStorage({
-        destination: (req, file, cb) => cb(null, UPLOADS_DIR),
+        destination: (req, file, cb) => cb(null, UPLOADS),
         filename: (req, file, cb) => cb(null, Date.now() + '-' + Math.round(Math.random() * 1e9) + path.extname(file.originalname).toLowerCase())
     }),
     limits: { fileSize: 5 * 1024 * 1024 },
-    fileFilter: (req, file, cb) => {
-        if (file.mimetype.startsWith('image/')) cb(null, true);
-        else cb(new Error('Solo se permiten archivos de imagen.'));
-    }
+    fileFilter: (req, file, cb) => file.mimetype.startsWith('image/') ? cb(null, true) : cb(new Error('Solo se permiten imágenes.'))
 });
 
 // Tienda
 app.get('/', (req, res) => res.redirect('/home'));
-app.get('/home', shopController.mostrarHome);
-app.get('/shop/categoria/:nombre', shopController.verCategoria);
-app.get('/nosotros', shopController.mostrarNosotros);
-app.get('/contacto', shopController.mostrarContacto);
-app.get('/carrito', shopController.mostrarCarrito);
-app.get('/detalleproducto/:id', shopController.mostrarDetalleProducto);
-// usuarios
-app.get('/login', usersController.mostrarLogin);
-app.get('/register', usersController.mostrarRegistro);
-app.get('/registro', usersController.mostrarRegistro);
-app.post('/usuarios/login', usersController.procesarLogin);
-app.post('/usuarios/registro', usersController.procesarRegistro);
+app.get('/home', shop.mostrarHome);
+app.get('/shop/categoria/:nombre', shop.verCategoria);
+app.get('/nosotros', shop.mostrarNosotros);
+app.get('/contacto', shop.mostrarContacto);
+app.get('/carrito', shop.mostrarCarrito);
+app.get('/detalleproducto/:id', shop.mostrarDetalleProducto);
 
-// Administrador / CRUD de Productos (Sprint 4)
-app.get('/products', productsController.listarProductos);                           // 1. /products (GET) - Listado
-app.get('/products/create', productsController.mostrarFormularioNuevo);             // 2. /products/create (GET) - Formulario de creación
-app.get('/products/:id', shopController.mostrarDetalleProducto);                    // 3. /products/:id (GET) - Detalle de un producto
-app.post('/products', upload.single('image'), productsController.crearProducto);    // 4. /products (POST) - Acción de creación
-app.get('/products/:id/edit', productsController.mostrarFormularioEditar);          // 5. /products/:id/edit (GET) - Formulario de edición
-app.put('/products/:id', upload.single('image'), productsController.actualizarProducto); // 6. /products/:id (PUT) - Acción de edición
-app.delete('/products/:id', productsController.eliminarProducto);                   // 7. /products/:id (DELETE) - Acción de borrado
+// Usuarios
+app.get(['/login', '/register', '/registro'], (req, res, next) => {
+    if (req.path === '/login') return users.mostrarLogin(req, res, next);
+    users.mostrarRegistro(req, res, next);
+});
+app.post('/usuarios/login', users.procesarLogin);
+app.post('/usuarios/registro', users.procesarRegistro);
+
+// Administrador
+app.get('/products', products.listarProductos);
+app.get('/products/create', products.mostrarFormularioNuevo);
+app.post('/products', upload.single('image'), products.crearProducto);
+app.get('/products/:id/edit', products.mostrarFormularioEditar);
+app.get('/products/:id', shop.mostrarDetalleProducto);
+app.put('/products/:id', upload.single('image'), products.actualizarProducto);
+app.delete('/products/:id', products.eliminarProducto);
 
 // Errores
 app.use((err, req, res, next) => {
-    if (err instanceof multer.MulterError) {
-        return res.status(400).send('Error al subir la imagen. El tamaño máximo permitido es de 5 MB.');
-    }
+    if (err instanceof multer.MulterError) return res.status(400).send('La imagen supera los 5 MB permitidos.');
     if (err) return res.status(400).send(err.message);
     next();
 });

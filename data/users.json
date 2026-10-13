@@ -262,5 +262,13 @@
     "email": "laura@gmail.com",
     "category": "cliente",
     "password": "$2b$10$fCjD0jtEwSA9rwGtPz0SHuI/DUKSAiqM.MuaxHDlu..WUc59eQ/me"
+  },
+  {
+    "id": "d70bcdb2-423f-428f-b7d9-968f3124d3c3",
+    "firstName": "ivan",
+    "lastName": "rueda",
+    "email": "ivanrueda562@gmail.com",
+    "category": "cliente",
+    "password": "$2b$10$iOJQeMcw314pJrKvJjxwL.AM4GW/Gh0MT1iad2HNa9xxr78PNHu4a"
   }
 ]

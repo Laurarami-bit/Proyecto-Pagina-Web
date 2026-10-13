@@ -1,80 +1,115 @@
+
 <%- include('../partials/head-publico', { title: 'home' }) %>
 <link rel="stylesheet" href="/css/home.css">
 <%- include('../partials/header-publico') %>
 
 <div class="contenedor">
 
-  <h1>Categorías</h1>
+    <h1>Categorías</h1>
 
-  <table style="margin: auto; width: 100%;">
+    <table style="margin: auto; width: 100%;">
+        <tr>
+            <td style="text-align: center; width: 33%;">
+                <a href="/shop/categoria/juguetes" style="text-decoration: none; color: inherit;">
+                    <img src="/images/peluches.jpeg" alt="Juguetes">
+                    <p class="nombre">Juguetes</p>
+                </a>
+            </td>
+            <td style="text-align: center; width: 33%;">
+                <a href="/shop/categoria/camisas" style="text-decoration: none; color: inherit;">
+                    <img src="/images/camisas.jpeg" alt="Camisas">
+                    <p class="nombre">Camisas</p>
+                </a>
+            </td>
+            <td style="text-align: center; width: 33%;">
+                <a href="/shop/categoria/aseo" style="text-decoration: none; color: inherit;">
+                    <img src="/images/jabon.jpeg" alt="Aseo">
+                    <p class="nombre">Aseo</p>
+                </a>
+            </td>
+        </tr>
 
-    <!-- Fila 1 -->
-    <tr>
-      <td style="text-align: center; width: 33%;">
-        <a href="/shop/categoria/juguetes" style="text-decoration: none; color: inherit;">
-          <img src="/images/peluches.jpeg" alt="Juguetes">
-          <p class="nombre">Juguetes</p>
-        </a>
-      </td>
-      <td style="text-align: center; width: 33%;">
-        <a href="/shop/categoria/camisas" style="text-decoration: none; color: inherit;">
-          <img src="/images/camisas.jpeg" alt="Camisas">
-          <p class="nombre">Camisas</p>
-        </a>
-      </td>
-      <td style="text-align: center; width: 33%;">
-        <a href="/shop/categoria/aseo" style="text-decoration: none; color: inherit;">
-          <img src="/images/jabon.jpeg" alt="Aseo">
-          <p class="nombre">Aseo</p>
-        </a>
-      </td>
-    </tr>
+        <tr>
+            <td style="text-align: center;">
+                <a href="/shop/categoria/pantalones" style="text-decoration: none; color: inherit;">
+                    <img src="/images/pantalones.jpeg" alt="Pantalones">
+                    <p class="nombre">Pantalones</p>
+                </a>
+            </td>
+            <td style="text-align: center;">
+                <a href="/shop/categoria/vestidos" style="text-decoration: none; color: inherit;">
+                    <img src="/images/vestidos.jpeg" alt="Vestidos">
+                    <p class="nombre">Vestidos</p>
+                </a>
+            </td>
+            <td style="text-align: center;">
+                <a href="/shop/categoria/conjuntos" style="text-decoration: none; color: inherit;">
+                    <img src="/images/conjuntos.jpeg" alt="Conjuntos">
+                    <p class="nombre">Conjuntos</p>
+                </a>
+            </td>
+        </tr>
 
-    <!-- Fila 2 -->
-    <tr>
-      <td style="text-align: center;">
-        <a href="/shop/categoria/pantalones" style="text-decoration: none; color: inherit;">
-          <img src="/images/pantalones.jpeg" alt="Pantalones">
-          <p class="nombre">Pantalones</p>
-        </a>
-      </td>
-      <td style="text-align: center;">
-        <a href="/shop/categoria/vestidos" style="text-decoration: none; color: inherit;">
-          <img src="/images/vestidos.jpeg" alt="Vestidos">
-          <p class="nombre">Vestidos</p>
-        </a>
-      </td>
-      <td style="text-align: center;">
-        <a href="/shop/categoria/conjuntos" style="text-decoration: none; color: inherit;">
-          <img src="/images/conjuntos.jpeg" alt="Conjuntos">
-          <p class="nombre">Conjuntos</p>
-        </a>
-      </td>
-    </tr>
+        <tr>
+            <td style="text-align: center;">
+                <a href="/shop/categoria/zapatos" style="text-decoration: none; color: inherit;">
+                    <img src="/images/zapatos.jpg" alt="Zapatos">
+                    <p class="nombre">Zapatos</p>
+                </a>
+            </td>
+            <td style="text-align: center;">
+                <a href="/shop/categoria/pijamas" style="text-decoration: none; color: inherit;">
+                    <img src="/images/pijamas.jpeg" alt="Pijamas">
+                    <p class="nombre">Pijamas</p>
+                </a>
+            </td>
+            <td style="text-align: center;">
+                <a href="/shop/categoria/abrigos" style="text-decoration: none; color: inherit;">
+                    <img src="/images/abrigos.jpeg" alt="Abrigos">
+                    <p class="nombre">Abrigos</p>
+                </a>
+            </td>
+        </tr>
+    </table>
 
-    <!-- Fila 3 corregida -->
-    <tr>
-      <td style="text-align: center;">
-        <a href="/shop/categoria/zapatos" style="text-decoration: none; color: inherit;">
-          <img src="/images/zapatos.jpg" alt="Zapatos">
-          <p class="nombre">Zapatos</p>
-        </a>
-      </td>
-      <td style="text-align: center;">
-        <a href="/shop/categoria/pijamas" style="text-decoration: none; color: inherit;">
-          <img src="/images/pijamas.jpeg" alt="Pijamas">
-          <p class="nombre">Pijamas</p>
-        </a>
-      </td>
-      <td style="text-align: center;">
-        <a href="/shop/categoria/abrigos" style="text-decoration: none; color: inherit;">
-          <img src="/images/abrigos.jpeg" alt="Abrigos">
-          <p class="nombre">Abrigos</p>
-        </a>
-      </td>
-    </tr>
+    <section class="seccion-productos">
+        <h1>Nuestros productos</h1>
 
-  </table>
+        <% if (productos && productos.length > 0) { %>
+            <div class="lista-productos">
+                <% productos.forEach(producto => { %>
+                    <a class="tarjeta-producto"
+                       href="/shop/producto/<%= producto.id %>">
+
+                        <img
+                            src="<%= producto.image %>"
+                            alt="<%= producto.name %>"
+                            onerror="this.onerror=null; this.src='/images/admin-placeholder.png';"
+                        >
+
+                        <div class="info-producto">
+                            <h3><%= producto.name %></h3>
+
+                            <p class="precio-producto">
+                                $<%= Number(producto.price).toLocaleString('es-CO') %>
+                            </p>
+
+                            <% if (producto.category) { %>
+                                <p class="categoria-producto">
+                                    <%= producto.category %>
+                                </p>
+                            <% } %>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p class="sin-productos">
+                Próximamente encontrarás nuestros productos aquí.
+            </p>
+        <% } %>
+    </section>
 
 </div>
+
 <%- include('../partials/footer') %>

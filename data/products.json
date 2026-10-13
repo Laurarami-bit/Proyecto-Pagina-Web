@@ -1561,5 +1561,15 @@
     "price": 45,
     "color": "Rosa",
     "image": "/uploads/1791774202807-539493039.jpg"
+  },
+  {
+    "id": "b74d7a3d-726e-42ac-8dcd-0192e5a28168",
+    "name": "Camiseta Bebe laura",
+    "description": "Camiseta de bebecito",
+    "category": "camisas",
+    "gender": "niño",
+    "price": 50000,
+    "color": "Celeste",
+    "image": "/uploads/1791847284724-471814393.jpg"
   }
 ]
