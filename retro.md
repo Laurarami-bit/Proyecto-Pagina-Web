@@ -19,7 +19,7 @@
 - Subir cambios al Git sin avisar al resto del equipo, ya que esto puede generar confusiones y retrasos en el trabajo.
 
 ## 5. Dejar de hacer
-- 
-- 
+- Dejar de hacer cambios en el código sin revisar si pueden afectar otras partes de la página.
+- Dejar de ignorar los errores que aparecen durante el desarrollo y solucionarlos a tiempo para evitar problemas en las entregas de cada sprint.
 
   
