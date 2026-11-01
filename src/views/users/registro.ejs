@@ -18,7 +18,7 @@
         <p>CREA TU CUENTA</p>
     </div>
 
-    <form action="/usuarios/registro" method="POST">
+    <form action="/usuarios/registro" method="POST" enctype="multipart/form-data">
 
         <div class="campo">
         <label for="firstName">👤 NOMBRE</label>
@@ -64,7 +64,7 @@
             <label for="password">🔒 CREA TU CONTRASEÑA</label>
             <input
                 type="password"
-                id="`password"
+                id="password"
                 name="password"
                 placeholder="CREA TU CONTRASEÑA"
                 minlength="8"
@@ -96,6 +96,15 @@
                 required
             >
         </div>
+        <div class="campo">
+    <label for="avatar">📷 IMAGEN DE PERFIL</label>
+    <input
+        type="file"
+        id="avatar"
+        name="avatar"
+        accept="image/*"
+    >
+   </div> 
 
         <button type="submit">CREAR CUENTA</button>
 

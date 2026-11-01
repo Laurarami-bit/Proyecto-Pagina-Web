@@ -1,0 +1,10 @@
+<%- include('../partials/head-publico', { title: 'carrito' }) %>
+<%- include('../partials/header-publico') %>
+<main style="max-width: 500px; margin: 40px auto; text-align: center;">
+    <img src="/images/users/<%= user.avatar %>" alt="Foto de perfil"
+         style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+
+    <h1><%= user.firstName %> <%= user.lastName %></h1>
+    <p><strong>Correo:</strong> <%= user.email %></p>
+    <p><strong>Categoría:</strong> <%= user.category %></p>
+<%- include('../partials/footer') %>

@@ -22,21 +22,37 @@ exports.mostrarLogin = (req, res) => {
 };
 
 exports.procesarLogin = async (req, res) => {
-    const { usuario, clave } = req.body;
+    const { email, password } = req.body;
     const users = readUsers();
-    const encontrado = users.find(u => u.usuario === usuario || u.email === usuario);
+    const encontrado = users.find(u => u.email === email);
 
     if (!encontrado) {
-        return res.send('Usuario o contraseña incorrectos');
+         return res.redirect('/login');
     }
 
-    const correcta = await bcrypt.compare(clave, encontrado.password);
+    const correcta = await bcrypt.compare(password, encontrado.password);
 
     if (correcta) {
-        return res.redirect('/home');
+        req.session.user = {
+            id: encontrado.id,
+            firstName: encontrado.firstName,
+            lastName: encontrado.lastName,
+            email: encontrado.email,
+            category: encontrado.category,
+            avatar: encontrado.avatar
+        };
+           if (req.body.recordarme) {
+            res.cookie('recordarme', encontrado.email, {
+                maxAge: 1000 * 60 * 60 * 24 * 30,
+                httpOnly: true
+            });
+        }
+        
+        return res.redirect('/perfil');
     }
-
-    res.send('Usuario o contraseña incorrectos');
+    
+    
+     res.redirect('/login');
 };
 
 exports.mostrarRegistro = (req, res) => {
@@ -58,11 +74,17 @@ exports.procesarRegistro = async (req, res) => {
         lastName,
         email,
         category,
-        password: await bcrypt.hash(password, 10)
+        password: await bcrypt.hash(password, 10),
+        avatar: req.file ? req.file.filename : 'default.png',
     };
+    
 
     users.push(nuevoUsuario);
     writeUsers(users);
 
     res.redirect('/login');
+
+}
+exports.mostrarPerfil = (req, res) => {
+    res.render('users/perfil');
 };

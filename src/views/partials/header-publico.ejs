@@ -6,6 +6,12 @@
       <a href="/nosotros">Nosotros</a>
       <a href="/contacto">Contacto</a>
       <a href="/carrito" style="text-decoration: none; font-size: 20px;">🛒</a>
-      <a href="/logout">Salir</a>
+      <% if (user) { %>
+        <img src="/images/users/<%= user.avatar %>" alt="Foto de perfil" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; vertical-align: middle;">
+        <span>Hola, <%= user.firstName %></span>
+        <a href="/logout">Salir</a>
+      <% } else { %>
+        <a href="/login">Iniciar sesión</a>
+      <% } %>
     </nav>
 </header>

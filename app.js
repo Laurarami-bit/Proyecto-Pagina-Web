@@ -3,11 +3,15 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const methodOverride = require('method-override');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
+
 
 const app = express();
 const shop = require('./controllers/shop_controller');
 const products = require('./controllers/productos_controller');
-const users = require('./controllers/user_controller');
+const usersRoutes = require('./routes/users');
 
 const PUBLIC = path.join(__dirname, 'public');
 const UPLOADS = path.join(PUBLIC, 'uploads');
@@ -20,6 +24,39 @@ app.use(express.static(PUBLIC));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
+app.use(cookieParser());
+
+app.use(session({
+    secret: 'angelitos-con-amor-secreto',
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use((req, res, next) => {
+    if (!req.session.user && req.cookies.recordarme) {
+        try {
+            const usuarios = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'users.json'), 'utf8'));
+            const encontrado = usuarios.find(u => u.email === req.cookies.recordarme);
+            if (encontrado) {
+                req.session.user = {
+                    id: encontrado.id,
+                    firstName: encontrado.firstName,
+                    lastName: encontrado.lastName,
+                    email: encontrado.email,
+                    category: encontrado.category,
+                    avatar: encontrado.avatar
+                };
+            }
+        } catch (e) {}
+    }
+    next();
+});
+
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    next();
+});
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -40,12 +77,7 @@ app.get('/carrito', shop.mostrarCarrito);
 app.get('/detalleproducto/:id', shop.mostrarDetalleProducto);
 
 // Usuarios
-app.get(['/login', '/register', '/registro'], (req, res, next) => {
-    if (req.path === '/login') return users.mostrarLogin(req, res, next);
-    users.mostrarRegistro(req, res, next);
-});
-app.post('/usuarios/login', users.procesarLogin);
-app.post('/usuarios/registro', users.procesarRegistro);
+app.use('/', usersRoutes);
 
 // Administrador
 app.get('/products', products.listarProductos);

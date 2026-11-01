@@ -24,10 +24,10 @@
 
             <div class="input-group">
                 <input
-                    type="text"
-                    id="usuario"
-                    name="usuario"
-                    placeholder="👤 USUARIO"
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="👤 CORREO ELECTRONICO"
                     autocomplete="username"
                     required
                 >
@@ -36,14 +36,19 @@
             <div class="input-group">
                 <input
                     type="password"
-                    id="clave"
-                    name="clave"
+                    id="password"
+                    name="password"
                     placeholder="🔒 CONTRASEÑA"
                     autocomplete="current-password"
                     required
                 >
             </div>
-
+                        <div class="input-group">
+                <label>
+                    <input type="checkbox" name="recordarme" value="on">
+                    RECORDAR
+                </label>
+            </div>
             <button type="submit">ACCESO</button>
 
         </form>
