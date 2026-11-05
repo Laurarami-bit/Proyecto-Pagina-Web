@@ -1,90 +1,197 @@
-const fs = require('fs');
-const path = require('path');
+
 const bcrypt = require('bcryptjs');
-const { randomUUID } = require('crypto');
-
-const USERS_FILE = path.join(__dirname, '..', 'data', 'users.json');
-
-function readUsers() {
-    try {
-        return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
-    } catch {
-        return [];
-    }
-}
-
-function writeUsers(users) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-}
+const { User, UserCategory } = require('../database/models');
 
 exports.mostrarLogin = (req, res) => {
     res.render('users/login');
 };
 
 exports.procesarLogin = async (req, res) => {
-    const { email, password } = req.body;
-    const users = readUsers();
-    const encontrado = users.find(u => u.email === email);
+    try {
+        const { email, password } = req.body;
 
-    if (!encontrado) {
-         return res.redirect('/login');
-    }
+        const encontrado = await User.findOne({ where: { email } });
 
-    const correcta = await bcrypt.compare(password, encontrado.password);
+        if (!encontrado) {
+            return res.redirect('/login');
+        }
 
-    if (correcta) {
+        const correcta = await bcrypt.compare(password, encontrado.password);
+
+        if (!correcta) {
+            return res.redirect('/login');
+        }
+
+        const categoria = await UserCategory.findByPk(encontrado.user_category_id);
+
         req.session.user = {
             id: encontrado.id,
-            firstName: encontrado.firstName,
-            lastName: encontrado.lastName,
+            firstName: encontrado.first_name,
+            lastName: encontrado.last_name,
             email: encontrado.email,
-            category: encontrado.category,
+            category: categoria ? categoria.name : '',
             avatar: encontrado.avatar
         };
-           if (req.body.recordarme) {
-            res.cookie('recordarme', encontrado.email, {
-                maxAge: 1000 * 60 * 60 * 24 * 30,
-                httpOnly: true
-            });
-        }
-        
-        return res.redirect('/perfil');
+
+        res.redirect('/home');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al iniciar sesión.');
     }
-    
-    
-     res.redirect('/login');
 };
 
-exports.mostrarRegistro = (req, res) => {
-    res.render('users/registro');
+exports.mostrarRegistro = async (req, res) => {
+    try {
+        const categorias = await UserCategory.findAll();
+        res.render('users/registro', { categorias });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al cargar el registro.');
+    }
 };
 
 exports.procesarRegistro = async (req, res) => {
-    const { firstName, lastName, email, password, contrasenacon, category } = req.body;
-    console.log('Datos de registro recibidos:', req.body);
-    if (password !== contrasenacon) {
-        return res.send('Las contraseñas no coinciden');
+    try {
+        const {
+            firstName,
+            lastName,
+            email,
+            password,
+            contrasenacon,
+            category
+        } = req.body;
+
+        if (password !== contrasenacon) {
+            return res.send('Las contraseñas no coinciden');
+        }
+
+        const existente = await User.findOne({ where: { email } });
+
+        if (existente) {
+            return res.send('Este correo ya está registrado.');
+        }
+
+        const categoria = await UserCategory.findOne({
+            where: { name: category }
+        });
+
+        if (!categoria) {
+            return res.status(400).send('La categoría no es válida.');
+        }
+
+        await User.create({
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            password: await bcrypt.hash(password, 10),
+            avatar: req.file ? req.file.filename : 'default.png',
+            user_category_id: categoria.id
+        });
+
+        res.redirect('/login');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al registrar el usuario.');
     }
-
-    const users = readUsers();
-
-    const nuevoUsuario = {
-        id: randomUUID(),
-        firstName,
-        lastName,
-        email,
-        category,
-        password: await bcrypt.hash(password, 10),
-        avatar: req.file ? req.file.filename : 'default.png',
-    };
-    
-
-    users.push(nuevoUsuario);
-    writeUsers(users);
-
-    res.redirect('/login');
-
-}
-exports.mostrarPerfil = (req, res) => {
-    res.render('users/perfil');
 };
+
+exports.listarUsuarios = async (req, res) => {
+    try {
+        const usuarios = await User.findAll({
+            include: [UserCategory]
+        });
+
+        res.render('users/listado', { usuarios });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al consultar los usuarios.');
+    }
+};
+
+exports.mostrarDetalle = async (req, res) => {
+    try {
+        const usuario = await User.findByPk(req.params.id, {
+            include: [UserCategory]
+        });
+
+        if (!usuario) {
+            return res.status(404).send('Usuario no encontrado.');
+        }
+
+        res.render('users/detalle', { usuario });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al consultar el usuario.');
+    }
+};
+
+exports.mostrarFormularioEditar = async (req, res) => {
+    try {
+        const usuario = await User.findByPk(req.params.id);
+        const categorias = await UserCategory.findAll();
+
+        if (!usuario) {
+            return res.status(404).send('Usuario no encontrado.');
+        }
+
+        res.render('users/editar', { usuario, categorias });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al cargar el formulario.');
+    }
+};
+
+exports.actualizarUsuario = async (req, res) => {
+    try {
+        const usuario = await User.findByPk(req.params.id);
+
+        if (!usuario) {
+            return res.status(404).send('Usuario no encontrado.');
+        }
+
+        const {
+            firstName,
+            lastName,
+            email,
+            category,
+            password
+        } = req.body;
+
+        const existente = await User.findOne({
+            where: { email }
+        });
+
+        if (existente && existente.id !== usuario.id) {
+            return res.status(400).send('Este correo ya está registrado.');
+        }
+
+        const categoria = await UserCategory.findByPk(category);
+
+        if (!categoria) {
+            return res.status(400).send('La categoría no es válida.');
+        }
+
+        const datos = {
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            user_category_id: categoria.id
+        };
+
+        if (password && password.trim() !== '') {
+            datos.password = await bcrypt.hash(password, 10);
+        }
+
+        if (req.file) {
+            datos.avatar = req.file.filename;
+        }
+
+        await usuario.update(datos);
+
+        res.redirect(`/usuarios/${usuario.id}/detalle`);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al actualizar el usuario.');
+    }
+};
+

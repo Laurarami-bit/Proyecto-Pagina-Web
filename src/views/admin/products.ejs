@@ -1,9 +1,8 @@
-<%- include('../partials/header', { title }) %>
+ <%- include('../partials/header', { title }) %>
 
 <link rel="stylesheet" href="/css/style.css">
 
 <style>
-    /* Tus estilos se mantienen exactamente igual */
     .admin-productos {
         padding: 25px;
         color: #49373a;
@@ -12,6 +11,32 @@
     .admin-productos h1 {
         color: #8d4655;
         margin-bottom: 20px;
+    }
+
+    .busqueda-productos {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .busqueda-productos input {
+        padding: 11px;
+        border: 1px solid #e5c5ca;
+        border-radius: 7px;
+        width: 280px;
+        max-width: 100%;
+    }
+
+    .busqueda-productos button,
+    .btn-limpiar {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 7px;
+        background: #8d4655;
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
     }
 
     .tabla-productos {
@@ -95,18 +120,41 @@
     }
 </style>
 
-<% 
-    // Creamos un alias seguro que acepta tanto 'products' como 'productos'
-    const listaProductos = (typeof products !== 'undefined' ? products : (typeof productos !== 'undefined' ? productos : []));
+<%
+    const listaProductos = (
+        typeof products !== 'undefined'
+            ? products
+            : (typeof productos !== 'undefined' ? productos : [])
+    );
+
+    const busquedaActual = typeof buscar !== 'undefined' ? buscar : '';
 %>
 
 <main class="admin-productos">
+
     <h1>Productos</h1>
 
+    <form class="busqueda-productos" action="/products" method="GET">
+        <input
+            type="text"
+            name="buscar"
+            placeholder="Buscar por nombre o descripción..."
+            value="<%= busquedaActual %>"
+        >
+
+        <button type="submit">Buscar</button>
+
+        <a href="/products" class="btn-limpiar">Limpiar</a>
+    </form>
+
     <% if (listaProductos.length === 0) { %>
-        <p>Todavía no hay productos.</p>
+
+        <p>No se encontraron productos.</p>
+
     <% } else { %>
+
         <table class="tabla-productos">
+
             <thead>
                 <tr>
                     <th>Imagen</th>
@@ -118,34 +166,53 @@
             </thead>
 
             <tbody>
+
                 <% listaProductos.forEach(function (p) { %>
+
                     <tr>
                         <td>
                             <img src="<%= p.image || p.imagen %>" alt="<%= p.name || p.nombre %>">
                         </td>
 
                         <td><%= p.name || p.nombre %></td>
+
                         <td><%= p.category || p.categoria %></td>
-                        <td>$ <%= Number(p.price || p.precio || 0).toLocaleString('es-CO') %></td>
+
+                        <td>
+                            $ <%= Math.round(Number(p.price ?? p.precio ?? 0)).toLocaleString('es-CO') %>
+                        </td>
 
                         <td>
                             <div class="acciones-producto">
+
                                 <a class="btn-editar" href="/products/<%= p.id %>/edit">
                                     Editar
                                 </a>
 
-                                <form class="form-eliminar" action="/products/<%= p.id %>?_method=DELETE" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este producto? Esta acción no se puede deshacer.');">
+                                <form
+                                    class="form-eliminar"
+                                    action="/products/<%= p.id %>?_method=DELETE"
+                                    method="POST"
+                                    onsubmit="return confirm('¿Seguro que deseas eliminar este producto? Esta acción no se puede deshacer.');">
+
                                     <button class="btn-eliminar" type="submit">
                                         Eliminar
                                     </button>
+
                                 </form>
+
                             </div>
                         </td>
                     </tr>
+
                 <% }) %>
+
             </tbody>
+
         </table>
+
     <% } %>
+
 </main>
 
 <%- include('../partials/footer') %>

@@ -1,193 +1,239 @@
-const fs = require('fs');
-const path = require('path');
-const { randomUUID } = require('crypto');
+const { Op } = require('sequelize');
+const { Product, Category, Color, Gender } = require('../database/models');
 
-const DATA_FILE = path.join(__dirname, '..', 'data', 'products.json');
+async function obtenerOpciones() {
+    const categories = await Category.findAll();
+    const colors = await Color.findAll();
+    const genders = await Gender.findAll();
 
-const CATEGORIES = [
-  'juguetes',
-  'camisas',
-  'aseo',
-  'pantalones',
-  'vestidos',
-  'conjuntos',
-  'zapatos',
-  'pijamas',
-  'abrigos'
-];
-
-const COLORS = [
-  'Blanco', 'Beige', 'Rosa', 'Celeste', 'Amarillo',
-  'Verde', 'Gris', 'Azul', 'Rojo', 'Negro', 'Multicolor'
-];
-
-const GENDERS = ['niña', 'niño', 'unisex'];
-
-function readProducts() {
-  if (!fs.existsSync(DATA_FILE)) {
-    return [];
-  }
-
-  const products = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-
-  if (!Array.isArray(products)) {
-    throw new Error('El archivo products.json no contiene una lista válida.');
-  }
-
-  return products;
+    return {
+        categories: categories.map(c => c.name),
+        colors: colors.map(c => c.name),
+        genders: genders.map(g => g.name)
+    };
 }
 
-function writeProducts(products) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
+async function buscarProducto(id) {
+    return await Product.findByPk(id, {
+        include: [Category, Color, Gender]
+    });
 }
 
-function validarProducto({ name, description, category, price, gender, color }) {
-  if (!name?.trim() || !description?.trim() || !category || !price || !gender) {
-    return 'Completa todos los campos obligatorios.';
-  }
+function normalizarProducto(producto) {
+    const p = producto.get({ plain: true });
 
-  if (!CATEGORIES.includes(category)) {
-    return 'La categoría seleccionada no es válida.';
-  }
-
-  if (!GENDERS.includes(gender)) {
-    return 'Selecciona niña, niño o unisex.';
-  }
-
-  if (!Number.isFinite(Number(price)) || Number(price) <= 0) {
-    return 'El precio debe ser mayor que cero.';
-  }
-
-  if (color && !COLORS.includes(color)) {
-    return 'El color seleccionado no es válido.';
-  }
-
-  return null;
+    return {
+        ...p,
+        category: p.Category ? p.Category.name : '',
+        color: p.Color ? p.Color.name : '',
+        gender: p.Gender ? p.Gender.name : ''
+    };
 }
 
-exports.listarProductos = (req, res) => {
-  res.render('admin/products', {
-    title: 'Productos',
-    products: readProducts()
-  });
-};
-
-exports.mostrarFormularioNuevo = (req, res) => {
-  const product = {
-    name: '',
-    description: '',
-    category: '',
-    gender: '',
-    price: '',
-    color: '',
-    image: ''
-  };
-
-  res.render('admin/product-form', {
-    title: 'Nuevo producto',
-    product,
-    categories: CATEGORIES,
-    colors: COLORS,
-    action: '/products' // <-- CORREGIDO: Apunta a la ruta nueva
-  });
-};
-
-exports.crearProducto = (req, res) => {
-  const { name, description, category, price, color, gender } = req.body;
-
-  const error = validarProducto({
-    name, description, category, price, color, gender
-  });
-
-  if (error) {
-    return res.status(400).send(error);
-  }
-
-  if (!req.file) {
-    return res.status(400).send('Debes seleccionar una imagen para el producto.');
-  }
-
-  const products = readProducts();
-
-  products.push({
-    id: randomUUID(),
-    name: name.trim(),
-    description: description.trim(),
-    category,
-    gender,
-    price: Number(price),
-    color: color || '',
-    image: '/uploads/' + req.file.filename
-  });
-
-  writeProducts(products);
-
-  res.redirect('/products'); // <-- CORREGIDO: Redirige al listado correcto
-};
-
-exports.mostrarFormularioEditar = (req, res) => {
-  const product = readProducts().find((p) => String(p.id).trim() === String(req.params.id).trim());
-
-  if (!product) {
-    return res.status(404).send('Producto no encontrado.');
-  }
-
-  res.render('admin/product-form', {
-    title: 'Editar producto',
-    product,
-    categories: CATEGORIES,
-    colors: COLORS,
-    action: '/products/' + product.id + '?_method=PUT' // <-- CORREGIDO: Apunta a PUT con method-override
-  });
-};
-
-exports.actualizarProducto = (req, res) => {
-  const products = readProducts();
-  const product = products.find((p) => String(p.id).trim() === String(req.params.id).trim());
-
-  if (!product) {
-    return res.status(404).send('Producto no encontrado.');
-  }
-
-  const { name, description, category, price, color, gender } = req.body;
-
-  const error = validarProducto({
-    name, description, category, price, color, gender
-  });
-
-  if (error) {
-    return res.status(400).send(error);
-  }
-
-  product.name = name.trim();
-  product.description = description.trim();
-  product.category = category;
-  product.gender = gender;
-  product.price = Number(price);
-  product.color = color || '';
-
-  if (req.file) {
-    product.image = '/uploads/' + req.file.filename;
-  }
-
-  writeProducts(products);
-
-  res.redirect('/products'); // <-- CORREGIDO
-};
-
-exports.eliminarProducto = (req, res) => {
-    const products = readProducts();
-    const product = products.find(p => String(p.id).trim() === String(req.params.id).trim());
-
-    if (!product) {
-        return res.redirect('/products');
+function validarProducto({ name, description, price, category, color, gender }) {
+    if (!name?.trim() || !description?.trim() || !category || !color || !gender || price === undefined || price === '') {
+        return 'Completa todos los campos obligatorios.';
     }
 
-    const productosActualizados = products.filter(
-        p => String(p.id).trim() !== String(req.params.id).trim()
-    );
+    if (!Number.isFinite(Number(price)) || Number(price) <= 0) {
+        return 'El precio debe ser mayor que cero.';
+    }
 
-    writeProducts(productosActualizados);
+    return null;
+}
 
-    res.redirect('/products'); // <-- CORREGIDO
+// Listar y buscar productos
+exports.listarProductos = async (req, res) => {
+    try {
+        const buscar = req.query.buscar || '';
+
+        const productosDB = await Product.findAll({
+            where: buscar
+                ? {
+                    [Op.or]: [
+                        { name: { [Op.like]: `%${buscar}%` } },
+                        { description: { [Op.like]: `%${buscar}%` } }
+                    ]
+                }
+                : {},
+            include: [Category, Color, Gender]
+        });
+
+        const products = productosDB.map(normalizarProducto);
+
+        res.render('admin/products', {
+            title: 'Productos',
+            products,
+            buscar
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al listar los productos.');
+    }
+};
+
+// Mostrar formulario para crear
+exports.mostrarFormularioNuevo = async (req, res) => {
+    try {
+        const opciones = await obtenerOpciones();
+
+        const product = {
+            name: '',
+            description: '',
+            category: '',
+            gender: '',
+            price: '',
+            color: '',
+            image: ''
+        };
+
+        res.render('admin/product-form', {
+            title: 'Nuevo producto',
+            product,
+            ...opciones,
+            action: '/products'
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al cargar el formulario.');
+    }
+};
+
+// Crear producto
+exports.crearProducto = async (req, res) => {
+    try {
+        const { name, description, category, price, color, gender } = req.body;
+
+        const error = validarProducto({
+            name, description, category, price, color, gender
+        });
+
+        if (error) {
+            return res.status(400).send(error);
+        }
+
+        if (!req.file) {
+            return res.status(400).send('Debes seleccionar una imagen para el producto.');
+        }
+
+        const categoriaDB = await Category.findOne({ where: { name: category } });
+        const colorDB = await Color.findOne({ where: { name: color } });
+        const generoDB = await Gender.findOne({ where: { name: gender } });
+
+        if (!categoriaDB || !colorDB || !generoDB) {
+            return res.status(400).send('La categoría, el color o el género no son válidos.');
+        }
+
+        await Product.create({
+            name: name.trim(),
+            description: description.trim(),
+            price: Number(price),
+            image: '/uploads/' + req.file.filename,
+            category_id: categoriaDB.id,
+            color_id: colorDB.id,
+            gender_id: generoDB.id
+        });
+
+        res.redirect('/products');
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al crear el producto.');
+    }
+};
+
+// Mostrar formulario para editar
+exports.mostrarFormularioEditar = async (req, res) => {
+    try {
+        const productoDB = await buscarProducto(req.params.id);
+
+        if (!productoDB) {
+            return res.status(404).send('Producto no encontrado.');
+        }
+
+        const product = normalizarProducto(productoDB);
+        const opciones = await obtenerOpciones();
+
+        res.render('admin/product-form', {
+            title: 'Editar producto',
+            product,
+            ...opciones,
+            action: '/products/' + product.id + '?_method=PUT'
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al cargar el producto.');
+    }
+};
+
+// Actualizar producto
+exports.actualizarProducto = async (req, res) => {
+    try {
+        const producto = await Product.findByPk(req.params.id);
+
+        if (!producto) {
+            return res.status(404).send('Producto no encontrado.');
+        }
+
+        const { name, description, category, price, color, gender } = req.body;
+
+        const error = validarProducto({
+            name, description, category, price, color, gender
+        });
+
+        if (error) {
+            return res.status(400).send(error);
+        }
+
+        const categoriaDB = await Category.findOne({ where: { name: category } });
+        const colorDB = await Color.findOne({ where: { name: color } });
+        const generoDB = await Gender.findOne({ where: { name: gender } });
+
+        if (!categoriaDB || !colorDB || !generoDB) {
+            return res.status(400).send('La categoría, el color o el género no son válidos.');
+        }
+
+        const datos = {
+            name: name.trim(),
+            description: description.trim(),
+            price: Number(price),
+            category_id: categoriaDB.id,
+            color_id: colorDB.id,
+            gender_id: generoDB.id
+        };
+
+        if (req.file) {
+            datos.image = '/uploads/' + req.file.filename;
+        }
+
+        await producto.update(datos);
+
+        res.redirect('/products');
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al actualizar el producto.');
+    }
+};
+
+// Eliminar producto
+exports.eliminarProducto = async (req, res) => {
+    try {
+        const producto = await Product.findByPk(req.params.id);
+
+        if (!producto) {
+            return res.status(404).send('Producto no encontrado.');
+        }
+
+        await producto.destroy();
+
+        res.redirect('/products');
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al eliminar el producto.');
+    }
 };
