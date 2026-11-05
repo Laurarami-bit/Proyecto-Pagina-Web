@@ -24,6 +24,10 @@ exports.procesarLogin = async (req, res) => {
 
         const categoria = await UserCategory.findByPk(encontrado.user_category_id);
 
+        req.session.cookie.maxAge = req.body.recordarme
+            ? 30 * 24 * 60 * 60 * 1000
+            : 24 * 60 * 60 * 1000;
+
         req.session.user = {
             id: encontrado.id,
             firstName: encontrado.first_name,
@@ -34,6 +38,7 @@ exports.procesarLogin = async (req, res) => {
         };
 
         res.redirect('/home');
+
     } catch (error) {
         console.log(error);
         res.status(500).send('Error al iniciar sesión.');
@@ -89,6 +94,7 @@ exports.procesarRegistro = async (req, res) => {
         });
 
         res.redirect('/login');
+
     } catch (error) {
         console.log(error);
         res.status(500).send('Error al registrar el usuario.');
@@ -189,6 +195,7 @@ exports.actualizarUsuario = async (req, res) => {
         await usuario.update(datos);
 
         res.redirect(`/usuarios/${usuario.id}/detalle`);
+
     } catch (error) {
         console.log(error);
         res.status(500).send('Error al actualizar el usuario.');
