@@ -19,7 +19,7 @@
 - Evitar que a veces se nos dupliquen los trabajos en el repositorio por no tener una buena comunicación entre nosotros.
 
 ## 5. Dejar de hacer
-- No hacer cambios ni subir códigos al repositorio sin consultarlo previamente con todo el grupo, ya que esto puede generar inconvenientes en el proyecto.
+-Seguir repartiéndonos el trabajo entre todos, ya que esta forma de organizarnos nos ha ayudado a avanzar en cada Sprint, cumplir con las actividades y entregar todo dentro de los tiempos establecidos.
 - No dejar de comunicar los errores que se nos presenten durante el desarrollo de cada vista, para poder solucionarlos entre todos
 
   ## Enlace para tablero actualizado
