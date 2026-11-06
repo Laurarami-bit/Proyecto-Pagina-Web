@@ -10,6 +10,7 @@
 
 
 ## 5. Dejar de hacer
+- Dejar de ocultar o no comunicar los errores que se presenten durante el desarrollo de cada vista, para poder buscar soluciones entre todos y evitar que se conviertan en problemas más grandes.
 
 
   
