@@ -37,7 +37,7 @@ exports.procesarLogin = async (req, res) => {
             avatar: encontrado.avatar
         };
 
-        res.redirect('/home');
+        res.redirect('/perfil');
 
     } catch (error) {
         console.log(error);
@@ -201,9 +201,33 @@ exports.actualizarUsuario = async (req, res) => {
         res.status(500).send('Error al actualizar el usuario.');
     }
 };
+
 exports.logout = (req, res) => {
-    req.session.destroy(() => {
+    req.session.destroy((error) => {
+        if (error) {
+            return res.status(500).send('Error al cerrar sesión.');
+        }
+
+        res.clearCookie('connect.sid');
         res.clearCookie('recordarme');
         res.redirect('/login');
     });
+};
+
+exports.mostrarPerfil = async (req, res) => {
+    try {
+        const usuario = await User.findByPk(req.session.user.id, {
+            include: [UserCategory]
+        });
+
+        if (!usuario) {
+            return res.status(404).send('Usuario no encontrado.');
+        }
+
+        res.render('users/perfil', { usuario });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al cargar el perfil.');
+    }
 };
