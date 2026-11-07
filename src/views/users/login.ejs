@@ -22,6 +22,10 @@
 
         <form action="/usuarios/login" method="POST">
 
+            <% if (typeof error !== 'undefined' && error) { %>
+                <p style="color: #b00020; text-align: center; font-weight: bold;"><%= error %></p>
+            <% } %>
+
             <div class="input-group">
                 <input
                     type="email"
@@ -43,12 +47,14 @@
                     required
                 >
             </div>
-                        <div class="input-group">
+
+            <div class="input-group">
                 <label>
                     <input type="checkbox" name="recordarme" value="on">
                     RECORDAR
                 </label>
             </div>
+
             <button type="submit">ACCESO</button>
 
         </form>

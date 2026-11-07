@@ -18,7 +18,9 @@ function writeUsers(users) {
 }
 
 exports.mostrarLogin = (req, res) => {
-    res.render('users/login');
+    const error = req.session.error || null;
+    delete req.session.error;
+    res.render('users/login', { error });
 };
 
 exports.procesarLogin = async (req, res) => {
@@ -27,7 +29,8 @@ exports.procesarLogin = async (req, res) => {
     const encontrado = users.find(u => u.email === email);
 
     if (!encontrado) {
-         return res.redirect('/login');
+        req.session.error = 'Correo o contraseña incorrectos';
+        return res.redirect('/login');
     }
 
     const correcta = await bcrypt.compare(password, encontrado.password);
@@ -41,18 +44,19 @@ exports.procesarLogin = async (req, res) => {
             category: encontrado.category,
             avatar: encontrado.avatar
         };
-           if (req.body.recordarme) {
+
+        if (req.body.recordarme) {
             res.cookie('recordarme', encontrado.email, {
                 maxAge: 1000 * 60 * 60 * 24 * 30,
                 httpOnly: true
             });
         }
-        
+
         return res.redirect('/perfil');
     }
-    
-    
-     res.redirect('/login');
+
+    req.session.error = 'Correo o contraseña incorrectos';
+    res.redirect('/login');
 };
 
 exports.mostrarRegistro = (req, res) => {
@@ -61,7 +65,6 @@ exports.mostrarRegistro = (req, res) => {
 
 exports.procesarRegistro = async (req, res) => {
     const { firstName, lastName, email, password, contrasenacon, category } = req.body;
-    console.log('Datos de registro recibidos:', req.body);
     if (password !== contrasenacon) {
         return res.send('Las contraseñas no coinciden');
     }
@@ -75,19 +78,19 @@ exports.procesarRegistro = async (req, res) => {
         email,
         category,
         password: await bcrypt.hash(password, 10),
-        avatar: req.file ? req.file.filename : 'default.png',
+        avatar: req.file ? req.file.filename : 'default.png'
     };
-    
 
     users.push(nuevoUsuario);
     writeUsers(users);
 
     res.redirect('/login');
+};
 
-}
 exports.mostrarPerfil = (req, res) => {
     res.render('users/perfil');
 };
+
 exports.logout = (req, res) => {
     req.session.destroy(() => {
         res.clearCookie('recordarme');
