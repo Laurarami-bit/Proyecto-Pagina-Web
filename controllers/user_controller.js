@@ -88,3 +88,9 @@ exports.procesarRegistro = async (req, res) => {
 exports.mostrarPerfil = (req, res) => {
     res.render('users/perfil');
 };
+exports.logout = (req, res) => {
+    req.session.destroy(() => {
+        res.clearCookie('recordarme');
+        res.redirect('/login');
+    });
+};

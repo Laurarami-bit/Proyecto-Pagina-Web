@@ -23,5 +23,6 @@ router.post('/usuarios/registro', guestMiddleware, upload.single('avatar'), user
 
 
 router.get('/perfil', authMiddleware, users.mostrarPerfil);
+router.get('/logout', authMiddleware, users.logout);
 
 module.exports = router;
