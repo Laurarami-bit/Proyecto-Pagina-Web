@@ -7,8 +7,8 @@
       <a href="/contacto">Contacto</a>
       <a href="/carrito" style="text-decoration: none; font-size: 20px;">🛒</a>
       <% if (user) { %>
-        <img src="/images/users/<%= user.avatar %>" alt="Foto de perfil" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; vertical-align: middle;">
-        <span>Hola, <%= user.firstName %></span>
+        <img src="/images/users/<%= user.avatar || 'default.png' %>" alt="Foto de perfil" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; vertical-align: middle;">
+        <a href="/perfil">Hola, <%= user.firstName %></a>
         <a href="/logout">Salir</a>
       <% } else { %>
         <a href="/login">Iniciar sesión</a>

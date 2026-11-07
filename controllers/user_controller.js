@@ -201,4 +201,9 @@ exports.actualizarUsuario = async (req, res) => {
         res.status(500).send('Error al actualizar el usuario.');
     }
 };
-
+exports.logout = (req, res) => {
+    req.session.destroy(() => {
+        res.clearCookie('recordarme');
+        res.redirect('/login');
+    });
+};
