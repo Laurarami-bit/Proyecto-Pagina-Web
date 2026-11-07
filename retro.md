@@ -1,25 +1,15 @@
 ***Retrospectiva del Sprint***
 ## 1. Comenzar a hacer
-- Realizar más reuniones grupales para interpretar mejor los requerimientos del proyecto y facilitar el desarrollo de las actividades.
-- Organizarnos mejor desde el principio para que cada uno tenga claras sus tareas y no se nos acumule el trabajo al final.
-
+- Debemos comenzar con buena actitud, apoyándonos y motivándonos entre todos para trabajar en equipo y cumplir los objetivos propuestos.
+- Empezar a revisar los avances de cada integrante para mantenernos al tanto del trabajo de todos.
 ## 2. Hacer más
-- Seguir compartiendo nuestros avances para tener claro cómo vamos y poder cumplir con nuestro objetivo como equipo.
-- Realizar pruebas de la página al finalizar cada sprint para revisar que todo funcione correctamente antes de hacer la entrega.
-- Compartir más ideas entre todos para mejorar cómo se ve y cómo funciona la página web.
+- Realizar más pruebas para comprobar que las funcionalidades estén trabajando correctamente.
+- Involucrarnos más en las decisiones del equipo y compartir nuestras ideas para que el proyecto siga mejorando.
 ## 3. Continuar haciendo
-- Seguir manteniendo la buena comunicación entre nosotros, ya que nos ha ayudado a cumplir con los objetivos de cada sprint.
-- Continuar repartiendo el trabajo entre todos, ya que cada uno aporta su granito de arena para sacar adelante el proyecto.
-- Seguir ayudándonos cuando alguno tenga dificultades, para que podamos aprender entre todos y avanzar con el desarrollo de la página web.
-
+- Seguir distribuyendo las tareas entre todos para que cada integrante pueda aportar al proyecto y juntos podamos cumplir con los objetivos propuestos.
+- Mantener la buena comunicación para estar pendientes de los avances.
 ## 4. Hacer menos
-- Depender menos de una sola persona cuando tengamos dificultades y buscar soluciones entre todos como equipo.
-- Evitar repetir tareas por falta de comunicación o por no tener claras las indicaciones, procurando hablar entre nosotros y resolver las dudas antes de empezar para aprovechar mejor el tiempo y avanzar de manera más organizada con el proyecto.
-
-- Subir cambios al Git sin avisar al resto del equipo, ya que esto puede generar confusiones y retrasos en el trabajo.
-
+- Evitar dejar las actividades para última hora y tratar de organizarnos mejor para avanzar con tiempo en cada entrega.
 ## 5. Dejar de hacer
-- Dejar de hacer cambios en el código sin revisar si pueden afectar otras partes de la página.
-- Dejar de ignorar los errores que aparecen durante el desarrollo y solucionarlos a tiempo para evitar problemas en las entregas de cada sprint.
-
+- Dejar de hacer cambios sin consultar a los demás y evitar trabajar por separado. Es importante que las decisiones se tomen en equipo y que mantengamos una buena comunicación entre todos.
   
