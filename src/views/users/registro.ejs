@@ -1,5 +1,7 @@
-
 <%- include('../partials/head-publico', { title: 'Registro' }) %>
+
+<% const e = typeof errors !== 'undefined' ? errors : {}; %>
+<% const o = typeof old !== 'undefined' ? old : {}; %>
 
 <link rel="stylesheet" href="/css/registro.css">
 
@@ -18,7 +20,7 @@
         <p>CREA TU CUENTA</p>
     </div>
 
-    <form action="/usuarios/registro" method="POST" enctype="multipart/form-data">
+    <form action="/usuarios/registro" method="POST" enctype="multipart/form-data" novalidate>
 
         <div class="campo">
             <label for="firstName">👤 NOMBRE</label>
@@ -27,8 +29,9 @@
                 id="firstName"
                 name="firstName"
                 placeholder="INGRESA TU NOMBRE"
-                required
+                value="<%= o.firstName || '' %>"
             >
+            <% if (e.firstName) { %><span class="error"><%= e.firstName.msg %></span><% } %>
         </div>
 
         <div class="campo">
@@ -38,17 +41,19 @@
                 id="lastName"
                 name="lastName"
                 placeholder="INGRESA TU APELLIDO"
-                required
+                value="<%= o.lastName || '' %>"
             >
+            <% if (e.lastName) { %><span class="error"><%= e.lastName.msg %></span><% } %>
         </div>
 
         <div class="campo">
             <label for="category">👤 CATEGORÍA</label>
-            <select id="category" name="category" required>
+            <select id="category" name="category">
                 <option value="">SELECCIONA UNA CATEGORÍA</option>
-                <option value="Cliente">CLIENTE</option>
-                <option value="Administrador">TRABAJADOR</option>
+                <option value="Cliente" <%= o.category === 'Cliente' ? 'selected' : '' %>>CLIENTE</option>
+                <option value="Administrador" <%= o.category === 'Administrador' ? 'selected' : '' %>>TRABAJADOR</option>
             </select>
+            <% if (e.category) { %><span class="error"><%= e.category.msg %></span><% } %>
         </div>
 
         <div class="campo ancho">
@@ -58,8 +63,9 @@
                 id="email"
                 name="email"
                 placeholder="laura@correo.com"
-                required
+                value="<%= o.email || '' %>"
             >
+            <% if (e.email) { %><span class="error"><%= e.email.msg %></span><% } %>
         </div>
 
         <div class="campo">
@@ -69,9 +75,8 @@
                 id="password"
                 name="password"
                 placeholder="CREA TU CONTRASEÑA"
-                minlength="8"
-                required
             >
+            <% if (e.password) { %><span class="error"><%= e.password.msg %></span><% } %>
         </div>
 
         <div class="campo">
@@ -81,9 +86,8 @@
                 id="contrasenacon"
                 name="contrasenacon"
                 placeholder="CONFIRMA TU CONTRASEÑA"
-                minlength="8"
-                required
             >
+            <% if (e.contrasenacon) { %><span class="error"><%= e.contrasenacon.msg %></span><% } %>
         </div>
 
         <div class="terminos">
@@ -96,8 +100,8 @@
                 type="checkbox"
                 id="terminos"
                 name="terminos"
-                required
             >
+            <% if (e.terminos) { %><span class="error"><%= e.terminos.msg %></span><% } %>
         </div>
 
         <div class="campo">
@@ -106,8 +110,9 @@
                 type="file"
                 id="avatar"
                 name="avatar"
-                accept="image/*"
+                accept=".jpg,.jpeg,.png,.gif"
             >
+            <% if (e.avatar) { %><span class="error"><%= e.avatar.msg %></span><% } %>
         </div>
 
         <button type="submit">CREAR CUENTA</button>
@@ -120,5 +125,7 @@
 
 </div>
 
-<%- include('../partials/footer') %>
+<script src="/js/validaciones.js"></script>
+<script src="/js/validar-registro.js"></script>
 
+<%- include('../partials/footer') %>

@@ -1,5 +1,7 @@
-```ejs
 <%- include('../partials/head-publico', { title: 'Login' }) %>
+
+<% const e = typeof errors !== 'undefined' ? errors : {}; %>
+<% const o = typeof old !== 'undefined' ? old : {}; %>
 
 <link rel="stylesheet" href="/css/login.css">
 
@@ -20,7 +22,7 @@
             INICIAR SESIÓN
         </h2>
 
-        <form action="/usuarios/login" method="POST">
+        <form action="/usuarios/login" method="POST" novalidate>
 
             <div class="input-group">
                 <input
@@ -29,8 +31,9 @@
                     name="email"
                     placeholder="👤 CORREO ELECTRÓNICO"
                     autocomplete="username"
-                    required
+                    value="<%= o.email || '' %>"
                 >
+                <% if (e.email) { %><span class="error"><%= e.email.msg %></span><% } %>
             </div>
 
             <div class="input-group">
@@ -40,8 +43,8 @@
                     name="password"
                     placeholder="🔒 CONTRASEÑA"
                     autocomplete="current-password"
-                    required
                 >
+                <% if (e.password) { %><span class="error"><%= e.password.msg %></span><% } %>
             </div>
 
             <div class="input-group">
@@ -68,7 +71,7 @@
 
 </div>
 
+<script src="/js/validaciones.js"></script>
+<script src="/js/validar-login.js"></script>
+
 <%- include('../partials/footer') %>
-```
-
-

@@ -1,4 +1,3 @@
-
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -10,6 +9,7 @@ const app = express();
 const shop = require('./controllers/shop_controller');
 const products = require('./controllers/productos_controller');
 const usersRoutes = require('./routes/users');
+const validateProduct = require('./middlewares/validateProduct');
 
 const PUBLIC = path.join(__dirname, 'public');
 const UPLOADS = path.join(PUBLIC, 'uploads');
@@ -35,6 +35,8 @@ app.use((req, res, next) => {
     next();
 });
 
+const EXTENSIONES_VALIDAS = ['.jpg', '.jpeg', '.png', '.gif'];
+
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => cb(null, UPLOADS),
@@ -46,11 +48,28 @@ const upload = multer({
         )
     }),
     limits: { fileSize: 5 * 1024 * 1024 },
-    fileFilter: (req, file, cb) =>
-        file.mimetype.startsWith('image/')
-            ? cb(null, true)
-            : cb(new Error('Solo se permiten imágenes.'))
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        const mimeValido = /^image\/(jpeg|png|gif)$/.test(file.mimetype);
+
+        if (EXTENSIONES_VALIDAS.includes(ext) && mimeValido) return cb(null, true);
+
+        req.fileError = 'La imagen debe ser un archivo JPG, JPEG, PNG o GIF.';
+        cb(null, false);
+    }
 });
+
+// Envuelve a multer para que sus errores lleguen al validador
+const subirImagen = (req, res, next) => {
+    upload.single('image')(req, res, (err) => {
+        if (err instanceof multer.MulterError) {
+            req.fileError = 'La imagen no puede superar los 5 MB.';
+        } else if (err) {
+            return next(err);
+        }
+        next();
+    });
+};
 
 app.get('/', (req, res) => res.redirect('/home'));
 app.get('/home', shop.mostrarHome);
@@ -64,10 +83,10 @@ app.use('/', usersRoutes);
 
 app.get('/products', products.listarProductos);
 app.get('/products/create', products.mostrarFormularioNuevo);
-app.post('/products', upload.single('image'), products.crearProducto);
+app.post('/products', subirImagen, validateProduct, products.crearProducto);
 app.get('/products/:id/edit', products.mostrarFormularioEditar);
 app.get('/products/:id', shop.mostrarDetalleProducto);
-app.put('/products/:id', upload.single('image'), products.actualizarProducto);
+app.put('/products/:id', subirImagen, validateProduct, products.actualizarProducto);
 app.delete('/products/:id', products.eliminarProducto);
 
 app.use((err, req, res, next) => {
@@ -87,5 +106,3 @@ const PORT = process.env.PORT || 3200;
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
-
-

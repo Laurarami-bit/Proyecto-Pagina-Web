@@ -259,3 +259,19 @@ img {
 }
 
 }
+
+.error-campo {
+    display: block;
+    color: #c0392b;
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+.campo-invalido {
+    outline: 2px solid #c0392b;
+}
+
+/* Campo con error (validaciones del front) */
+.campo-invalido {
+    outline: 2px solid #c0392b;
+}

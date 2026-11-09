@@ -1,4 +1,3 @@
-
 const bcrypt = require('bcryptjs');
 const { User, UserCategory } = require('../database/models');
 
@@ -48,7 +47,7 @@ exports.procesarLogin = async (req, res) => {
 exports.mostrarRegistro = async (req, res) => {
     try {
         const categorias = await UserCategory.findAll();
-        res.render('users/registro', { categorias });
+        res.render('users/registro', { categorias, errors: {}, old: {} });
     } catch (error) {
         console.log(error);
         res.status(500).send('Error al cargar el registro.');
@@ -57,36 +56,13 @@ exports.mostrarRegistro = async (req, res) => {
 
 exports.procesarRegistro = async (req, res) => {
     try {
-        const {
-            firstName,
-            lastName,
-            email,
-            password,
-            contrasenacon,
-            category
-        } = req.body;
+        const { firstName, lastName, email, password, category } = req.body;
 
-        if (password !== contrasenacon) {
-            return res.send('Las contraseñas no coinciden');
-        }
-
-        const existente = await User.findOne({ where: { email } });
-
-        if (existente) {
-            return res.send('Este correo ya está registrado.');
-        }
-
-        const categoria = await UserCategory.findOne({
-            where: { name: category }
-        });
-
-        if (!categoria) {
-            return res.status(400).send('La categoría no es válida.');
-        }
+        const categoria = await UserCategory.findOne({ where: { name: category } });
 
         await User.create({
-            first_name: firstName,
-            last_name: lastName,
+            first_name: firstName.trim(),
+            last_name: lastName.trim(),
             email,
             password: await bcrypt.hash(password, 10),
             avatar: req.file ? req.file.filename : 'default.png',

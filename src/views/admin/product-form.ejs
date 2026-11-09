@@ -1,3 +1,4 @@
+<% const e = typeof errors !== 'undefined' ? errors : {}; %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,7 +21,7 @@
             </div>
         </header>
 
-        <form class="product-form" method="post" action="<%= action %>" enctype="multipart/form-data">
+        <form class="product-form" method="post" action="<%= action %>" enctype="multipart/form-data" novalidate>
 
             <div class="form-section">
                 <h2>Información del producto</h2>
@@ -32,8 +33,8 @@
                         id="name"
                         name="name"
                         value="<%= product.name || '' %>"
-                        required
                     >
+                    <% if (e.name) { %><span class="error-campo"><%= e.name.msg %></span><% } %>
                 </div>
 
                 <div class="form-group">
@@ -42,14 +43,14 @@
                         id="description"
                         name="description"
                         rows="4"
-                        required
                     ><%= product.description || '' %></textarea>
+                    <% if (e.description) { %><span class="error-campo"><%= e.description.msg %></span><% } %>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="category">Categoría</label>
-                        <select id="category" name="category" required>
+                        <select id="category" name="category">
                             <option value="">Elige una categoría</option>
                             <% categories.forEach(function (c) { %>
                                 <option value="<%= c %>" <%= product.category === c ? 'selected' : '' %>>
@@ -57,16 +58,18 @@
                                 </option>
                             <% }) %>
                         </select>
+                        <% if (e.category) { %><span class="error-campo"><%= e.category.msg %></span><% } %>
                     </div>
 
                     <div class="form-group">
                         <label for="gender">Dirigido a</label>
-                        <select id="gender" name="gender" required>
+                        <select id="gender" name="gender">
                             <option value="">Elige una opción</option>
                             <option value="niña" <%= product.gender === 'niña' ? 'selected' : '' %>>Niña</option>
                             <option value="niño" <%= product.gender === 'niño' ? 'selected' : '' %>>Niño</option>
                             <option value="unisex" <%= product.gender === 'unisex' ? 'selected' : '' %>>Unisex</option>
                         </select>
+                        <% if (e.gender) { %><span class="error-campo"><%= e.gender.msg %></span><% } %>
                     </div>
                 </div>
 
@@ -80,19 +83,21 @@
                             min="1"
                             step="1"
                             value="<%= product.price || '' %>"
-                            required
                         >
+                        <% if (e.price) { %><span class="error-campo"><%= e.price.msg %></span><% } %>
                     </div>
 
                     <div class="form-group">
                         <label for="color">Color</label>
                         <select id="color" name="color">
+                            <option value="">Elige un color</option>
                             <% colors.forEach(function (c) { %>
                                 <option value="<%= c %>" <%= product.color === c ? 'selected' : '' %>>
                                     <%= c %>
                                 </option>
                             <% }) %>
                         </select>
+                        <% if (e.color) { %><span class="error-campo"><%= e.color.msg %></span><% } %>
                     </div>
                 </div>
             </div>
@@ -112,8 +117,7 @@
                         type="file"
                         id="image"
                         name="image"
-                        accept="image/*"
-                        <%= product.image ? '' : 'required' %>
+                        accept=".jpg,.jpeg,.png,.gif"
                     >
                     <small>
                         <% if (product.image) { %>
@@ -122,6 +126,7 @@
                             Debes seleccionar una imagen para guardar el producto.
                         <% } %>
                     </small>
+                    <% if (e.image) { %><span class="error-campo"><%= e.image.msg %></span><% } %>
                 </div>
             </div>
 
@@ -132,6 +137,9 @@
 
         </form>
     </main>
+
+    <script src="/js/validaciones.js"></script>
+    <script src="/js/validar-producto.js"></script>
 
 </body>
 </html>
